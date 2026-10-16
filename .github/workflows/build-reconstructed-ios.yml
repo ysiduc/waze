@@ -58,6 +58,37 @@ jobs:
           rm -f build_test_routing
           echo "All native C++ tests passed successfully."
 
+      - name: Compile & Execute Swift XCTest Unit Tests
+        run: |
+          echo "================================================================================"
+          echo "RUNNING SWIFT XCTEST UNIT TEST SUITE"
+          echo "================================================================================"
+          mkdir -p build_output
+          xcrun --sdk macosx swiftc \
+            -framework Foundation -framework XCTest -framework CoreLocation -framework Security \
+            WazeRecovery/Sources/Core/Types.swift \
+            WazeRecovery/Sources/Models/RouteModels.swift \
+            WazeRecovery/Sources/Models/NavigationState.swift \
+            WazeRecovery/Sources/Models/HazardModels.swift \
+            WazeRecovery/Sources/Models/SearchModels.swift \
+            WazeRecovery/Sources/Models/LocationModel.swift \
+            WazeRecovery/Sources/Navigation/ManeuverType.swift \
+            WazeRecovery/Sources/Routing/AlternateRoutesStateMachineBridge.swift \
+            WazeRecovery/Sources/Navigation/NavigationGuidanceReducerBridge.swift \
+            WazeRecovery/Sources/Navigation/AlertReportingService.swift \
+            WazeRecovery/Sources/Search/SearchEngine.swift \
+            WazeRecovery/Sources/Persistence/KeychainStorageService.swift \
+            WazeRecovery/Sources/Persistence/UserPreferencesService.swift \
+            WazeRecovery/Tests/AlternateRoutesStateMachineTests.swift \
+            WazeRecovery/Tests/NavigationGuidanceReducerTests.swift \
+            WazeRecovery/Tests/KeychainStorageTests.swift \
+            WazeRecovery/Tests/HazardAlertTests.swift \
+            WazeRecovery/Tests/SearchEngineTests.swift \
+            WazeRecovery/Tests/SwiftTestRunner.swift \
+            -o build_output/run_swift_tests
+          ./build_output/run_swift_tests
+          echo "All Swift XCTest unit tests executed and passed successfully."
+
       - name: Compile Reconstructed iOS Application
         run: |
           set -o pipefail

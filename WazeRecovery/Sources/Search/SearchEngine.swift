@@ -96,12 +96,9 @@ public final class SearchEngine {
 
         // Sort by spatial distance if user coordinate is provided
         if let loc = userLocation {
-            let locCL = CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude)
             results.sort { d1, d2 in
-                let c1 = CLLocationCoordinate2D(latitude: d1.coordinate.latitude, longitude: d1.coordinate.longitude)
-                let c2 = CLLocationCoordinate2D(latitude: d2.coordinate.latitude, longitude: d2.coordinate.longitude)
-                let dist1 = WZNativeEngineBridge.distance(from: locCL, to: c1)
-                let dist2 = WZNativeEngineBridge.distance(from: locCL, to: c2)
+                let dist1 = haversineDistance(from: loc, to: d1.coordinate)
+                let dist2 = haversineDistance(from: loc, to: d2.coordinate)
                 return dist1 < dist2
             }
         }

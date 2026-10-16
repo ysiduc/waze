@@ -58,11 +58,8 @@ public final class AlertReportingService {
 
     /// Spatial query: returns all hazards within radiusMeters of coordinate.
     public func alerts(near center: WZCoordinate, radiusMeters: Double = 2000.0) -> [WZHazardAlert] {
-        let centerCL = CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
-
         return activeAlerts.filter { alert in
-            let alertCL = CLLocationCoordinate2D(latitude: alert.coordinate.latitude, longitude: alert.coordinate.longitude)
-            let dist = WZNativeEngineBridge.distance(from: centerCL, to: alertCL)
+            let dist = haversineDistance(from: center, to: alert.coordinate)
             return dist <= radiusMeters
         }
     }
@@ -84,19 +81,16 @@ public final class AlertReportingService {
 
     /// Evaluates current position and heading along route to trigger or dismiss proximity warnings.
     public func updateLocation(_ location: WZCoordinate, headingDegrees: Double = 0.0) -> WZAlertWarning? {
-        let locCL = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-
         // Find nearest alert ahead
         var nearestAlert: WZHazardAlert?
         var nearestDist = Double.greatestFiniteMagnitude
 
         for alert in activeAlerts {
-            let alertCL = CLLocationCoordinate2D(latitude: alert.coordinate.latitude, longitude: alert.coordinate.longitude)
-            let dist = WZNativeEngineBridge.distance(from: locCL, to: alertCL)
+            let dist = haversineDistance(from: location, to: alert.coordinate)
 
             if dist <= warningRadiusMeters && dist < nearestDist {
                 // Check if alert is roughly in the direction of travel
-                let bearingToAlert = WZNativeEngineBridge.bearing(from: locCL, to: alertCL)
+                let bearingToAlert = initialBearing(from: location, to: alert.coordinate)
                 let angleDiff = abs(bearingToAlert - headingDegrees)
                 let normDiff = min(angleDiff, 360.0 - angleDiff)
 
