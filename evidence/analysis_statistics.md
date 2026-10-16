@@ -8,7 +8,7 @@ This document compiles all quantitative benchmarks, file metrics, and metadata s
 
 | File Identifier | Size (Bytes) | Size (Human) | SHA-256 Digest | Format |
 |---|---|---|---|---|
-| `waze.ipa` (Archive) | 115,221,416 | 109.88 MB | `78c54a3db510c7d2142baeb13dd773c2f7774a3e4d99fb9a4cc966941086a158` | ZIP / IPA archive |
+| `waze.ipa` (Archive) | 114,712,520 | 114.71 MB / 109.40 MiB | `78c54a3db510c7d2142baeb13dd773c2f7774a3e4d99fb9a4cc966941086a158` | ZIP / IPA archive |
 | `Waze` (Main Binary) | 141,425,424 | 141.42 MB / 134.87 MiB | `0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80` | Mach-O 64-bit ARM64 |
 | `NotificationExtension` | 1,227,216 | 1.23 MB / 1.17 MiB | `4b2985714dbbbc9a583eb983c1f4638bfd641d37df6b83027b93bcca2caa5330` | Mach-O 64-bit ARM64 |
 | `WazeShareExtension` | 1,226,624 | 1.23 MB / 1.17 MiB | `5df1434ea011d3aa33166eb8bf8ff9b18b4ce0bfa9da137a892701b2a47f4469` | Mach-O 64-bit ARM64 |

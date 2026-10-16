@@ -5,7 +5,8 @@ Waze iOS Application Repackaging & Structure Validation Tool
 Audits Mach-O binaries, frameworks, app extensions, entitlements,
 and bundle hierarchies. Preserves original unencrypted binaries
 without instruction modification or code injection, and packages
-a structurally valid IPA for user-managed signing and local testing.
+a structurally valid IPA preserving complete POSIX ZIP metadata,
+file type bits (S_IFREG, S_IFDIR), directory entries, and permissions.
 """
 
 import os
@@ -16,6 +17,8 @@ import zipfile
 import hashlib
 import argparse
 import json
+import stat
+import datetime
 from typing import Dict, List, Any, Optional
 
 def compute_sha256(filepath: str) -> str:
@@ -162,39 +165,124 @@ def audit_bundle(app_dir: str) -> Dict[str, Any]:
         "has_assets_car": has_assets_car
     }
 
-def package_ipa(app_dir: str, output_ipa_path: str, verbose: bool = True) -> Dict[str, Any]:
-    """Packages the Waze.app directory into a standard, structurally valid IPA."""
+def package_ipa(app_dir: str, output_ipa_path: str, reference_ipa_path: Optional[str] = None, verbose: bool = True) -> Dict[str, Any]:
+    """
+    Packages the Waze.app directory into a standard, structurally valid IPA.
+    Preserves POSIX permissions (S_IFREG, S_IFDIR, S_IFLNK), directory entries,
+    and optionally aligns compression types with an original reference IPA.
+    """
     os.makedirs(os.path.dirname(os.path.abspath(output_ipa_path)), exist_ok=True)
-    
     parent_dir = os.path.dirname(os.path.abspath(app_dir))
-    app_folder_name = os.path.basename(os.path.abspath(app_dir))
     
+    ref_entries = {}
+    if reference_ipa_path and os.path.exists(reference_ipa_path):
+        if verbose:
+            print(f"Reading reference metadata from: {reference_ipa_path}...")
+        with zipfile.ZipFile(reference_ipa_path, 'r') as rzf:
+            for rzi in rzf.infolist():
+                ref_entries[rzi.filename] = {
+                    "compress_type": rzi.compress_type,
+                    "date_time": rzi.date_time,
+                    "external_attr": rzi.external_attr
+                }
+
     if verbose:
         print(f"Creating IPA archive: {output_ipa_path}...")
+
+    # Discover all directories and files
+    dir_set = set()
+    file_list = []
+    
+    # Always include top-level Payload/ and Payload/Waze.app/
+    dir_set.add("Payload/")
+    dir_set.add("Payload/Waze.app/")
+    
+    for root, dirs, files in os.walk(app_dir):
+        for d in dirs:
+            full_d = os.path.join(root, d)
+            rel_d = os.path.relpath(full_d, parent_dir).replace('\\', '/')
+            dir_set.add(f"Payload/{rel_d}/")
+            
+        for f in sorted(files):
+            full_f = os.path.join(root, f)
+            rel_f = os.path.relpath(full_f, parent_dir).replace('\\', '/')
+            file_list.append((full_f, f"Payload/{rel_f}"))
+
+    sorted_dirs = sorted(list(dir_set))
+    file_list.sort(key=lambda x: x[1])
     
     entries_count = 0
-    with zipfile.ZipFile(output_ipa_path, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=6) as zipf:
-        for root, dirs, files in os.walk(app_dir):
-            for file in sorted(files):
-                full_path = os.path.join(root, file)
-                rel_path = os.path.relpath(full_path, parent_dir)
-                archive_name = f"Payload/{rel_path}"
+    with zipfile.ZipFile(output_ipa_path, 'w') as zipf:
+        # 1. Write Directory Entries
+        for d_path in sorted_dirs:
+            zinfo = zipfile.ZipInfo(d_path)
+            zinfo.create_system = 3 # UNIX
+            zinfo.compress_type = zipfile.ZIP_STORED
+            
+            # Directory mode: S_IFDIR | 0o755 = 0o040755
+            dir_mode = (stat.S_IFDIR | 0o755) << 16
+            zinfo.external_attr = dir_mode
+            
+            if d_path in ref_entries:
+                zinfo.date_time = ref_entries[d_path]["date_time"]
+            else:
+                zinfo.date_time = (2026, 8, 21, 20, 31, 30)
                 
-                # Set permissions: 0755 for executables/binaries, 0644 for regular files
-                is_exec = os.access(full_path, os.X_OK) or file == "Waze" or file.endswith(".dylib")
-                perm = 0o755 if is_exec else 0o644
-                
-                zinfo = zipfile.ZipInfo.from_file(full_path, arcname=archive_name)
-                zinfo.external_attr = perm << 16
-                zinfo.compress_type = zipfile.ZIP_DEFLATED
-                
-                with open(full_path, 'rb') as src:
-                    zipf.writestr(zinfo, src.read())
+            zipf.writestr(zinfo, b'')
+            entries_count += 1
+
+        # 2. Write File Entries
+        for full_path, arc_name in file_list:
+            st = os.lstat(full_path)
+            mode = st.st_mode
+            
+            # Handle Symlinks
+            if stat.S_ISLNK(mode):
+                target = os.readlink(full_path)
+                zinfo = zipfile.ZipInfo(arc_name)
+                zinfo.create_system = 3
+                zinfo.external_attr = (stat.S_IFLNK | 0o777) << 16
+                zinfo.compress_type = zipfile.ZIP_STORED
+                zinfo.date_time = datetime.datetime.fromtimestamp(st.st_mtime).timetuple()[:6]
+                zipf.writestr(zinfo, target.encode('utf-8'))
                 entries_count += 1
+                continue
                 
-                if verbose and entries_count % 500 == 0:
-                    print(f"  Archived {entries_count} files...")
-    
+            # Regular File
+            zinfo = zipfile.ZipInfo(arc_name)
+            zinfo.create_system = 3 # UNIX
+            
+            # Determine POSIX permissions: ensure S_IFREG (0o100000) is preserved
+            is_exec = os.access(full_path, os.X_OK) or os.path.basename(full_path) == "Waze"
+            if stat.S_ISREG(mode):
+                reg_mode = mode
+            else:
+                reg_mode = stat.S_IFREG | (0o755 if is_exec else 0o644)
+            zinfo.external_attr = reg_mode << 16
+            
+            # Timestamp
+            if arc_name in ref_entries:
+                zinfo.date_time = ref_entries[arc_name]["date_time"]
+            else:
+                zinfo.date_time = datetime.datetime.fromtimestamp(st.st_mtime).timetuple()[:6]
+                
+            # Compression mode
+            if arc_name in ref_entries:
+                zinfo.compress_type = ref_entries[arc_name]["compress_type"]
+            else:
+                ext = os.path.splitext(full_path)[1].lower()
+                if ext in ['.png', '.jpg', '.jpeg', '.mp3', '.wav', '.aac', '.m4a']:
+                    zinfo.compress_type = zipfile.ZIP_STORED
+                else:
+                    zinfo.compress_type = zipfile.ZIP_DEFLATED
+                    
+            with open(full_path, 'rb') as src:
+                zipf.writestr(zinfo, src.read(), compresslevel=6 if zinfo.compress_type == zipfile.ZIP_DEFLATED else None)
+                
+            entries_count += 1
+            if verbose and entries_count % 500 == 0:
+                print(f"  Archived {entries_count} entries...")
+
     # Verify ZIP integrity
     if verbose:
         print("Verifying output ZIP integrity...")
@@ -224,6 +312,8 @@ def main():
                         help="Path to unencrypted Waze.app directory")
     parser.add_argument("--output-ipa", default="/home/ysiduc/.gemini/antigravity-ide/scratch/waze-analysis/repackaged/Waze-repackaged.ipa",
                         help="Destination path for repackaged IPA")
+    parser.add_argument("--reference-ipa", default=None,
+                        help="Path to original reference IPA to align compression and metadata")
     parser.add_argument("--validate-only", action="store_true",
                         help="Perform bundle structure and entitlement audit without writing IPA")
     parser.add_argument("--json", action="store_true",
@@ -253,13 +343,13 @@ def main():
             print(json.dumps(audit_res, indent=2))
         return
 
-    pkg_res = package_ipa(args.app_dir, args.output_ipa)
+    pkg_res = package_ipa(args.app_dir, args.output_ipa, reference_ipa_path=args.reference_ipa)
     print("--------------------------------------------------------------------------------")
     print("REPACKAGING SUMMARY:")
     print(f"  Output IPA:      {pkg_res['output_ipa_path']}")
     print(f"  Size:            {pkg_res['size_bytes']} bytes ({pkg_res['size_bytes'] / (1024*1024):.2f} MB)")
     print(f"  SHA-256:         {pkg_res['sha256']}")
-    print(f"  Files Included:  {pkg_res['entry_count']}")
+    print(f"  Entries Count:   {pkg_res['entry_count']}")
     print(f"  ZIP Integrity:   {'PASSED' if pkg_res['integrity_verified'] else 'FAILED'}")
     print("================================================================================")
 
