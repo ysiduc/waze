@@ -1,200 +1,193 @@
-# Empirical Function Verification Results (Phase 1.4)
+# Empirical Function Verification Results (Phase 1.4 & 1.4.1)
 
 **Target Binary:** `Waze` (ARM64 iOS Executable, `waze.ipa` v5.22.0)  
-**Binary Size:** 141,425,424 bytes (`0x86e0df0`)  
+**Binary Size:** 141,425,424 bytes (`0x86e0df0`, `134.87 MiB`)  
 **SHA-256:** `0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80`  
 **Analysis Engine:** Ghidra 12.1.2 Headless Analyzer (`analyzeHeadless`) & REA 6.5.0  
 **Verification Date:** 2026-10-16  
 **Host Environment:** Arch Linux x86_64, OpenJDK 27  
+**Automation Script:** [`scripts/TargetAnalysis.java`](../scripts/TargetAnalysis.java)
 
 ---
 
 ## 1. Function Verification Summary Table
 
-| Virtual Address | Component / Class | Verified Runtime Selector | Type Signature | Span (Start - End) | Size (Bytes) | Inst Count | CFG Blocks | Calls (Dir/Ind) | Decomp Time | Status |
-|:---|:---|:---|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| `0x10001a718` | `AlternateRoutesStateMachineBridge` | `applyRouteUpdateWithRouteUpdateProtos:` | `v24@0:8@16` | `0x10001a718` - `0x10001ad1b` | 1,300 B | 325 | 43 | 95 / 4 | 228 ms | **VERIFIED** |
-| `0x1000d4b08` | `MainCanvasViewHolder` | `init` | `@16@0:8` | `0x1000d4b08` - `0x1000d4beb` | 228 B | 57 | 3 | 13 / 0 | 15 ms | **VERIFIED** |
-| `0x1000d4c6c` | `MainCanvasViewHolder` | `makeGenericCanvasActivator` | `@16@0:8` | `0x1000d4c6c` - `0x1000d4cab` | 64 B | 16 | 1 | 3 / 0 | 7 ms | **VERIFIED** |
-| `0x100102264` | `NavigationGuidanceReducerBridge` | `distanceToCrossSegmentWith:` | `q24@0:8q16` | `0x100102264` - `0x1001023eb` | 392 B | 98 | 20 | 9 / 3 | 21 ms | **VERIFIED** |
-| `0x1000a1d28` | `WZWazeLocationServiceBridge` | `currentSpeed` | `@16@0:8` | `0x1000a1d28` - `0x1000a1d7f` | 88 B | 22 | 5 | 4 / 0 | 5 ms | **VERIFIED** |
+All virtual addresses are based on Mach-O 64-bit load base `0x100000000`.
 
-**Benchmark Total:** 5 targeted application functions, 2,072 bytes of compiled ARM64 code, 518 instructions, 72 basic blocks, 100% decompilation success in 276 ms total (average 55.2 ms/function).
+| Virtual Address | Owning Class | Independently Verified Selector | Type Signature | Inclusive Address Span | Body Bytes (Span) | Inst Count | CFG Blocks | Contiguous? | Decomp Time | Warnings | Status |
+|:---|:---|:---|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| `0x10001a718` | `AlternateRoutesStateMachineBridge` | `applyRouteUpdateWithRouteUpdateProtos:` | `v24@0:8@16` | `0x10001a718` - `0x10001ad1b` | 1,300 B (1,540 B) | 325 | 43 | NO (6 ranges, 5 gaps) | 244 ms | 2 | **VERIFIED** |
+| `0x1000d4b08` | `MainCanvasViewHolder` | `init` | `@16@0:8` | `0x1000d4b08` - `0x1000d4beb` | 228 B (228 B) | 57 | 3 | YES (1 range, 0 gaps) | 16 ms | 0 | **VERIFIED** |
+| `0x1000d4c6c` | `MainCanvasViewHolder` | `makeGenericCanvasActivator` | `@16@0:8` | `0x1000d4c6c` - `0x1000d4cab` | 64 B (64 B) | 16 | 1 | YES (1 range, 0 gaps) | 7 ms | 2 | **VERIFIED** |
+| `0x100102264` | `NavigationGuidanceReducerBridge` | `distanceToCrossSegmentWith:` | `q24@0:8q16` | `0x100102264` - `0x1001023eb` | 392 B (392 B) | 98 | 20 | YES (1 range, 0 gaps) | 30 ms | 0 | **VERIFIED** |
+| `0x1000a1d28` | `WZWazeLocationServiceBridge` | `currentSpeed` | `@16@0:8` | `0x1000a1d28` - `0x1000a1d7f` | 88 B (88 B) | 22 | 5 | YES (1 range, 0 gaps) | 7 ms | 2 | **VERIFIED** |
 
----
-
-## 2. Detailed Function Analysis
-
-### 2.1. `AlternateRoutesStateMachineBridge::applyRouteUpdateWithRouteUpdateProtos:`
-
-- **Address:** `0x10001a718`
-- **Memory Section:** `__TEXT.__text` (Flags: Read, Execute)
-- **Verified Boundaries:**
-  - Entry: `0x10001a718` (`sub sp, sp, #0x6d0`)
-  - Exit: `0x10001ad18` (`ret`)
-  - Span: `0x10001a718` - `0x10001ad1b` (1,300 bytes, exactly 325 32-bit ARM64 instructions)
-- **Objective-C Runtime Binding:**
-  - Method list address: `0x1046845b8` (relative method list in `__TEXT.__objc_methlist`)
-  - Owning Class: `AlternateRoutesStateMachineBridge` (class struct at `0x107f17048`, `class_ro_t` at `0x107d233c8`)
-  - Selector: `applyRouteUpdateWithRouteUpdateProtos:` (selref `0x107ee0ab8` -> `0x104bffcc2`)
-  - Type Encoding: `v24@0:8@16` (void return, frame 24, self at 0, _cmd at 8, proto object at 16)
-- **Control-Flow Graph (CFG):**
-  - Basic Blocks: 43
-  - Branching Structure: 3 distinct sequential conditional blocks parsing distinct sub-proto fields from the incoming protobuf wrapper.
-  - Exception Handling: Contains landing pad invoking `__Unwind_Resume` (`0x10001accc`) and cleanup branches.
-- **Embedded Assertions & Logging Strings:**
-  - File: `"AlternateRoutesStateMachineBridge.mm"`
-  - Internal C++ Method Name: `"ParseToRoutingUpdateResponse"`
-  - Error 1 (line 30 / `0x1e`): `"Failed to parse CurrentRouteUpdate"`
-  - Error 2 (line 39 / `0x27`): `"Failed to parse RerouteSuggestion"`
-  - Error 3 (line 48 / `0x30`): `"Failed to parse NextUpdateSchedule"`
-- **Call Relationships:**
-  - Direct Calls (95):
-    - Runtime Memory & Retention: `_bzero`, `_objc_retain_x19`, `_objc_release_x19`, `_objc_retainAutoreleasedReturnValue`, `___stack_chk_fail`.
-    - Protobuf Deserialization: `0x103e5e994` (`CurrentRouteUpdate`), `0x103e60c38` (`RerouteSuggestion`), `0x103f35db0` (`NextUpdateSchedule`).
-    - Sub-Handlers: `0x10001ad1c` (adjacent handler for reroute suggestions), `0x10001ad68` (next update schedule handler), `0x10001ae10` (finalization).
-    - State Machine Dispatch: `0x100f8e148` (bridge context accessor), `0x100f8e75c` (event emitter).
-  - Indirect Calls (4): Virtual C++ calls `blr x9` and `blr x8` dispatched through the active state machine context pointer.
-- **Decompilation Quality:**
-  - Clean C control structure recovered: stack buffers allocated, sub-proto existence verified, parsed objects forwarded to internal C++ state machine, ARC releases cleanly paired.
+**Verification Totals:**
+- Total Target Routines: 5 / 5 (100.0%)
+- Disassembly Succeeded: 5 / 5 (100.0%)
+- Function Models Established: 5 / 5 (100.0%)
+- Objective-C Metadata Independently Verified: 5 / 5 (100.0%)
+- Decompilation Succeeded: 5 / 5 (100.0%)
+- Total Compiled ARM64 Executable Body: 2,072 bytes (518 instructions) across 72 basic blocks
+- Objective-C Metadata Index Time: 348 ms (30,279 methods indexed)
+- Total Decompilation Execution Time: 304 ms (average 60.8 ms/function)
 
 ---
 
-### 2.2. `MainCanvasViewHolder::init`
+## 2. Independent Verification Levels
 
-- **Address:** `0x1000d4b08`
-- **Memory Section:** `__TEXT.__text` (Flags: Read, Execute)
-- **Verified Boundaries:**
-  - Entry: `0x1000d4b08` (`sub sp, sp, #0x50`)
-  - Exit: `0x1000d4be8` (`ret`)
-  - Span: `0x1000d4b08` - `0x1000d4beb` (228 bytes, 57 ARM64 instructions)
-- **Objective-C Runtime Binding:**
-  - Method list address: `0x1046a0c90` (relative method list in `__TEXT.__objc_methlist`)
-  - Owning Class: `MainCanvasViewHolder` (class struct at `0x107f1a4a0`, `class_ro_t` at `0x107d376a0`)
-  - Selector: `init` (selref `0x107ee8b90` -> `0x104c40430`)
-  - Type Encoding: `@16@0:8` (returns object instance, self at 0, _cmd at 8)
-- **Control-Flow Graph (CFG):**
-  - Basic Blocks: 3
-  - Branching: Straight-line initialization with a single nil-check conditional on the `super init` return value (`if (self != nil)`).
-- **Call Relationships:**
-  - Direct Calls (13):
-    - `0x1000d4b3c`: `BL _objc_msgSendSuper2` (invoking `-[NSObject init]`)
-    - `0x1000d4b54`: `BL _objc_alloc`
-    - `0x1000d4b64`: `BL 0x10460f060` (viewport observer registration)
-    - `0x1000d4b78`: `BL 0x10460f020` (canvas bounds observer registration)
-    - `0x1000d4b90`: `BL _objc_alloc_init` (`PTR_PTR_107f0b1c0`)
-    - `0x1000d4bcc`: `BL 0x1045eafa0` (canvas lifecycle delegate notification)
-  - Indirect Calls: 0
-- **Internal State Mutation:**
-  - Stores the newly configured canvas viewport controller into instance variable offset `self + 0x28` (`*(undefined **)((long)puVar1 + 0x28) = puVar2`).
-- **Decompilation Quality:**
-  - 100% decompiled in 15 ms. Perfect Objective-C initialization idiom recovered.
+To prevent over-claiming or conflating syntactic decompilation with algorithmic proof, four separate verification levels are maintained:
+
+1. **Level 1 — Successfully Decoded Instructions:**
+   Every 32-bit ARM64 opcode within the function body is disassembled into valid, standard mnemonic instructions without undefined instruction traps or decoding gaps.
+2. **Level 2 — Decompiled Functions:**
+   Ghidra's decompiler finishes AST construction, high-level C pseudocode recovery, and parameter reconstruction (`decompileCompleted() == true`) within the execution budget, logging any decompiler warning pragmas.
+3. **Level 3 — Correctly Identified Runtime Methods:**
+   Owning class name, selector name, and method type encodings are confirmed by reading Mach-O 64-bit runtime structures (`__objc_classlist`, `class_ro_t`, relative method tables in `__objc_methlist`, and chained fixup references in `__objc_selrefs`), rather than echoing hardcoded literals.
+4. **Level 4 — Understood Algorithmic Behavior:**
+   Control-flow structures, call graphs, assertions, logging strings, and state transformations are traced and mapped to the application's domain logic.
 
 ---
 
-### 2.3. `MainCanvasViewHolder::makeGenericCanvasActivator`
+## 3. Function Boundary Audit & The 1,300 vs. 1,540 Byte Discrepancy
 
-- **Address:** `0x1000d4c6c`
-- **Memory Section:** `__TEXT.__text` (Flags: Read, Execute)
-- **Verified Boundaries:**
-  - Entry: `0x1000d4c6c` (`stp x20, x19, [sp, #-0x20]!`)
-  - Exit: `0x1000d4ca8` (`b _objc_autoreleaseReturnValue` tail-call)
-  - Span: `0x1000d4c6c` - `0x1000d4cab` (64 bytes, 16 ARM64 instructions)
-- **Objective-C Runtime Binding:**
-  - Method list address: `0x1046a0c90` (same method list as `MainCanvasViewHolder::init`)
-  - Owning Class: `MainCanvasViewHolder` (`0x107f1a4a0`)
-  - Selector: `makeGenericCanvasActivator` (selref `0x107eeca90` -> `0x104c55df0`)
-  - Type Encoding: `@16@0:8`
-- **Control-Flow Graph (CFG):**
-  - Basic Blocks: 1 (pure straight-line factory routine)
-- **Allocated Class Object:**
-  - Class reference `PTR_PTR_107f0aa20` resolves via chained fixup to `0x107f1a680` (`GenericCanvasActivator`).
-- **Call Relationships:**
-  - Direct Calls (3):
-    - `0x1000d4c84`: `BL _objc_alloc` (allocates `GenericCanvasActivator`)
-    - `0x1000d4c90`: `BL 0x10460e360` (extracts platform rendering service from `self`)
-    - `0x1000d4c9c`: `BL 0x1046046e0` (initializes activator with platform context)
-  - Terminal Exit: Tail-call to `_objc_autoreleaseReturnValue`.
-  - Indirect Calls: 0
-- **Decompilation Quality:**
-  - 100% decompiled in 7 ms. Unambiguous factory method returning an autoreleased activator.
+### 3.1. Mathematical Root Cause Analysis (`0x10001a718`)
 
----
+During Phase 1.4 review, an apparent discrepancy was noted for `0x10001a718`:
+- Start Address: `0x10001a718`
+- End Address: `0x10001ad1b`
+- Inclusive Address Span: `0x10001ad1b - 0x10001a718 + 1` = **1,540 bytes**
+- Function Body Byte Count: **1,300 bytes** (`body.getNumAddresses()`)
 
-### 2.4. `NavigationGuidanceReducerBridge::distanceToCrossSegmentWith:`
+**Audit Finding:** The function body is **non-contiguous**. The 240-byte difference (`1,540 - 1,300 = 240 bytes`) consists of five internal code gaps excluded from the primary function body by the compiler and Ghidra's CFG model.
 
-- **Address:** `0x100102264`
-- **Memory Section:** `__TEXT.__text` (Flags: Read, Execute)
-- **Verified Boundaries:**
-  - Entry: `0x100102264` (`sub sp, sp, #0x180`)
-  - Exit: `0x1001023e8` (`ret`)
-  - Span: `0x100102264` - `0x1001023eb` (392 bytes, 98 ARM64 instructions)
-- **Objective-C Runtime Binding:**
-  - Method list address: `0x1046a48c8`
-  - Owning Class: `NavigationGuidanceReducerBridge` (class struct at `0x107f1ab08`, `class_ro_t` at `0x107d395b0`)
-  - Selector: `distanceToCrossSegmentWith:` (selref `0x107ee5118` -> `0x104c1ab06`)
-  - Type Encoding: `q24@0:8q16` (returns 64-bit integer `long long`, self at 0, _cmd at 8, segment ID at 16)
-- **Control-Flow Graph (CFG):**
-  - Basic Blocks: 20
-  - Branching: Multiple conditional validation branches evaluating segment flags (`uStack_50 & 1`), checking calculation results, and unwinding dynamically allocated geometry arrays.
-- **Call Relationships:**
-  - Direct Calls (9):
-    - `0x100102284`: `BL 0x100f60cc8` (acquires guidance engine singleton / context)
-    - `0x100102318`, `0x100102334`, `0x100102350`, `0x100102368`: `BL __ZdlPvm` (`operator delete(void*, unsigned long)`)
-    - `0x10010237c`: `BL 0x100102608` (segment vector cleanup)
-    - `0x100102388`: `BL 0x1001026c0` (coordinate array cleanup)
-    - `0x100102398`: `BL 0x100102764` (turn point cleanup)
-    - `0x1001023d0`: `BL __ZNSt3__119__shared_weak_count14__release_weakEv`
-  - Indirect Calls (3):
-    - `0x1001022cc`: `blr x9` (C++ vtable call `*plStack_48 + 0xa8`: segment intersection test)
-    - `0x1001022e8`: `blr x8` (C++ vtable call `*plStack_48 + 0xe8`: distance computation)
-    - `0x1001023c8`: `blr x8` (C++ virtual destructor on engine handle)
-- **Decompilation Quality:**
-  - 100% decompiled in 21 ms. Full C++ interop lifecycle cleanly recovered, including atomic reference decrement loop (`ExclusiveMonitorPass` / `ExclusiveMonitorsStatus`).
+#### Body Address Ranges (6 Ranges = 1,300 bytes / 325 instructions):
+1. **Range 0:** `0x10001a718` - `0x10001aba3` (1,164 bytes, 291 instructions) — Function prologue, Protobuf deserialization dispatch, state machine calls.
+2. **Range 1:** `0x10001ac24` - `0x10001ac2b` (8 bytes, 2 instructions) — Intermediate cleanup block.
+3. **Range 2:** `0x10001ac30` - `0x10001ac3b` (12 bytes, 3 instructions) — Cleanup dispatch.
+4. **Range 3:** `0x10001ac80` - `0x10001ac8b` (12 bytes, 3 instructions) — Exception handling branch block.
+5. **Range 4:** `0x10001acb0` - `0x10001acc3` (20 bytes, 5 instructions) — Shared object destruction block.
+6. **Range 5:** `0x10001acc8` - `0x10001ad1b` (84 bytes, 21 instructions) — Unwind resume (`__Unwind_Resume`), stack canary verification (`___stack_chk_fail`), epilogue, and `ret`.
+
+$$\text{Total Body Bytes} = 1164 + 8 + 12 + 12 + 20 + 84 = 1,300\text{ bytes}$$
+
+#### Excluded Gaps (5 Gaps = 240 bytes / 60 instructions):
+1. **Gap 0:** `0x10001aba4` - `0x10001ac23` (128 bytes, 32 instructions)
+2. **Gap 1:** `0x10001ac2c` - `0x10001ac2f` (4 bytes, 1 instruction)
+3. **Gap 2:** `0x10001ac3c` - `0x10001ac7f` (68 bytes, 17 instructions)
+4. **Gap 3:** `0x10001ac8c` - `0x10001acaf` (36 bytes, 9 instructions)
+5. **Gap 4:** `0x10001acc4` - `0x10001acc7` (4 bytes, 1 instruction)
+
+$$\text{Total Gap Bytes} = 128 + 4 + 68 + 36 + 4 = 240\text{ bytes}$$
+$$\text{Total Span} = 1,300\text{ body bytes} + 240\text{ gap bytes} = 1,540\text{ bytes}$$
+
+#### Gap Instruction Content:
+Disassembly of the gap regions reveals that they contain C++/Objective-C++ exception landing pads and cold cleanup sequences:
+- `mov x20, x0`: Saves exception pointer into callee-saved register `x20`.
+- Destructor invocations: Calls to `0x1045d5f04`, `0x1045d5ef8`, `0x1045d5eec`, `0x1045d5ee0`, and `0x103e60e04` to clean up stack-allocated Protobuf message buffers.
+- Branches: Direct jumps to shared cleanup nodes at `0x10001acac` and `0x10001acb0`.
+
+Under Clang/LLVM optimization for ARM64, exception landing pads and cold cleanup paths are scheduled at the function tail with non-contiguous control flow, resulting in distinct basic block clusters that Ghidra isolates into non-contiguous ranges.
+
+### 3.2. Boundary Audit Across All Five Targets
+
+| Function Address | Inclusive Address Span | Body Bytes | Gaps | Contiguous? | Adjacent Next Entry |
+|:---|:---:|:---:|:---:|:---:|:---|
+| `0x10001a718` | 1,540 B | 1,300 B | 5 (240 B) | **NO** | `0x10001ad1c` (`sub_10001ad1c`) |
+| `0x1000d4b08` | 228 B | 228 B | 0 (0 B) | **YES** | `0x1000d4bec` (`sub_1000d4bec`) |
+| `0x1000d4c6c` | 64 B | 64 B | 0 (0 B) | **YES** | `0x1000d4cac` (`makeWazeMapCanvasActivator`) |
+| `0x100102264` | 392 B | 392 B | 0 (0 B) | **YES** | `0x1001023ec` (`sub_1001023ec`) |
+| `0x1000a1d28` | 88 B | 88 B | 0 (0 B) | **YES** | `0x1000a1d80` (`currentLocation`) |
 
 ---
 
-### 2.5. `WZWazeLocationServiceBridge::currentSpeed`
+## 4. Independent Objective-C Metadata Resolution
 
-- **Address:** `0x1000a1d28`
-- **Memory Section:** `__TEXT.__text` (Flags: Read, Execute)
-- **Verified Boundaries:**
-  - Entry: `0x1000a1d28` (`stp x20, x19, [sp, #-0x20]!`)
-  - Exit: `0x1000a1d7c` (`b _objc_autoreleaseReturnValue` tail-call)
-  - Span: `0x1000a1d28` - `0x1000a1d7f` (88 bytes, 22 ARM64 instructions)
-- **Objective-C Runtime Binding:**
-  - Method list address: `0x1046b8d00`
-  - Owning Class: `WZWazeLocationServiceBridge` (class struct at `0x107f19690`, `class_ro_t` at `0x107d321f0`)
-  - Selector: `currentSpeed` (selref `0x107ee41c0` -> `0x104c1505e`)
-  - Type Encoding: `@16@0:8` (returns speed telemetry transfer object)
-- **Control-Flow Graph (CFG):**
-  - Basic Blocks: 5
-  - Branching: Checks location tracking state (`param_1 != 0`), verifies telemetry validity (`lVar1 != 0`), constructs transfer object, and returns `nil` if tracking is inactive.
-- **Telemetry Extraction Logic:**
-  - Reads 32-bit integer speed telemetry at `*(int *)(lVar1 + 0xc)` and accuracy/bearing at `*(int *)(lVar1 + 0x34)`.
-  - Converts both to IEEE 754 double precision (`(double)*(int *)(...)`).
-  - Calls initializer `func_0x000104604360` with double parameters.
-- **Call Relationships:**
-  - Direct Calls (4):
-    - `0x1000a1d34`: `BL 0x100e538d8` (checks location service authorization)
-    - `0x1000a1d40`: `BL 0x100e54d30` (fetches active GPS telemetry record)
-    - `0x1000a1d54`: `BL _objc_alloc`
-    - `0x1000a1d68`: `BL 0x104604360` (invokes speed object initializer)
-  - Terminal Exit: Tail-call to `_objc_autoreleaseReturnValue`.
-  - Indirect Calls: 0
-- **Decompilation Quality:**
-  - 100% decompiled in 5 ms. Exact telemetry fields and object construction validated.
+Rather than relying on hardcoded strings, [`scripts/TargetAnalysis.java`](../scripts/TargetAnalysis.java) dynamically walks Mach-O 64-bit runtime structures:
+
+1. **Class Walking (`__objc_classlist`):**
+   Reads array of pointers to `objc_class` structs in `__objc_data`.
+   For each class, reads `class_ro_t` pointer from `bits & 0x7ffffffffff8L`.
+   Extracts `name` string from `__objc_classname` and `baseMethodList` pointer from `__objc_const` / `__objc_methlist`.
+2. **Relative Method List Parsing (`__objc_methlist`):**
+   Decodes `flags_or_entsize` (`0x8000000c`) and `count`.
+   Each 12-byte relative entry is decoded via relative offsets:
+   - `name_offset`: Address of selref = `entry_addr + name_offset`
+   - `types_offset`: Address of type string = `entry_addr + 4 + types_offset`
+   - `imp_offset`: Address of implementation = `entry_addr + 8 + imp_offset`
+3. **Chained Fixup Resolution (`__objc_selrefs`):**
+   Reads 64-bit pointer in `__objc_selrefs`. Unchains modern dyld rebase pointer:
+   $$\text{target\_addr} = 0x100000000 + (\text{raw\_val} \ \& \ 0xfffffffff)$$
+   Reads null-terminated selector string in `__TEXT.__objc_methname`.
+
+### Empirical Resolution Evidence:
+
+```
+[TARGET 1] 0x10001a718
+  - Owning Class:       AlternateRoutesStateMachineBridge
+  - Selector Name:      applyRouteUpdateWithRouteUpdateProtos:
+  - Type Encoding:      v24@0:8@16
+  - Method Table Entry: 0x10001a718 (MethList: 0x1046845b8, SelRef: 0x107ee0ab8 -> 0x104bffcc2)
+  - Verification:       VERIFIED
+
+[TARGET 2] 0x1000d4b08
+  - Owning Class:       MainCanvasViewHolder
+  - Selector Name:      init
+  - Type Encoding:      @16@0:8
+  - Method Table Entry: 0x1000d4b08 (MethList: 0x1046a0c90, SelRef: 0x107ee8b90 -> 0x104c40430)
+  - Verification:       VERIFIED
+
+[TARGET 3] 0x1000d4c6c
+  - Owning Class:       MainCanvasViewHolder
+  - Selector Name:      makeGenericCanvasActivator
+  - Type Encoding:      @16@0:8
+  - Method Table Entry: 0x1000d4c6c (MethList: 0x1046a0c90, SelRef: 0x107eeca90 -> 0x104c55df0)
+  - Verification:       VERIFIED
+
+[TARGET 4] 0x100102264
+  - Owning Class:       NavigationGuidanceReducerBridge
+  - Selector Name:      distanceToCrossSegmentWith:
+  - Type Encoding:      q24@0:8q16
+  - Method Table Entry: 0x100102264 (MethList: 0x1046a48c8, SelRef: 0x107ee5118 -> 0x104c1ab06)
+  - Verification:       VERIFIED
+
+[TARGET 5] 0x1000a1d28
+  - Owning Class:       WZWazeLocationServiceBridge
+  - Selector Name:      currentSpeed
+  - Type Encoding:      @16@0:8
+  - Method Table Entry: 0x1000a1d28 (MethList: 0x1046b8d00, SelRef: 0x107ee41c0 -> 0x104c1505e)
+  - Verification:       VERIFIED
+```
 
 ---
 
-## 3. Discrepancy & Verification Ledger: REA vs. Direct Ghidra
+## 5. Decompiler Execution Details & Compiler Warnings
 
-| Domain | Prior / Inferred Claim (Phase 1.2-1.3) | Verified Ground Truth (Phase 1.4 Scoped Analysis) | Empirical Proof |
-|:---|:---|:---|:---|
-| **`0x10001a718` Selector** | `ParseToRoutingUpdateResponse:` | **`applyRouteUpdateWithRouteUpdateProtos:`** | Method struct `0x1046845c0` in `__TEXT.__objc_methlist` binds selref `0x107ee0ab8` -> `0x104bffcc2`. `ParseToRoutingUpdateResponse` is the internal C++ log string. |
-| **`0x1000d4c6c` Selector** | `createCanvasWithPlatformService:` | **`makeGenericCanvasActivator`** | Method struct `0x1046a0cbc` in `__TEXT.__objc_methlist` binds selref `0x107eeca90` -> `0x104c55df0`. Instantiates `GenericCanvasActivator`. |
-| **`0x100102264` Selector** | `reduceGuidanceEvent:` | **`distanceToCrossSegmentWith:`** | Method struct `0x1046a48d0` in `__TEXT.__objc_methlist` binds selref `0x107ee5118` -> `0x104c1ab06`. Type signature is `q24@0:8q16`. |
-| **`0x1000a1d28` Selector** | `dispatchLocationUpdate:` | **`currentSpeed`** | Method struct `0x1046b8d08` in `__TEXT.__objc_methlist` binds selref `0x107ee41c0` -> `0x104c1505e`. Returns speed transfer object. |
-| **Ghidra Analysis Scalability** | Only import stubs verified (19 stubs + 1 entry) | **100% success on complex routines (up to 1,300 B, 43 basic blocks, 95 calls)** | All 5 complex routines decompiled without a single decompiler error, timeout, or crash. |
-| **Analysis Performance** | Feared multi-hour freeze on 141 MB binary | **276 ms total execution time** | Scoped analysis without full-program auto-analysis bypassed all performance bottlenecks. |
-| **REA Headless Integration** | Expected single-command execution | **Timed out (3m) during whole-binary auto-analysis** | REA default Ghidra bridge lacks `-noanalysis` scoping for large binaries, whereas direct Ghidra headless scripts execute instantly. |
+| Address | Selector | Duration | Output Lines | Warnings | Warning Text |
+|:---|:---|:---:|:---:|:---:|:---|
+| `0x10001a718` | `applyRouteUpdateWithRouteUpdateProtos:` | 244 ms | 292 | 2 | `Possible PIC construction at 0x00010001a840: Changing call to branch`; `Removing unreachable block (ram,0x00010001a844)` |
+| `0x1000d4b08` | `init` | 16 ms | 33 | 0 | `NONE` |
+| `0x1000d4c6c` | `makeGenericCanvasActivator` | 7 ms | 15 | 2 | `Could not recover jumptable at 0x0001045d5d68. Too many branches`; `Treating indirect jump as call` |
+| `0x100102264` | `distanceToCrossSegmentWith:` | 30 ms | 147 | 0 | `NONE` |
+| `0x1000a1d28` | `currentSpeed` | 7 ms | 20 | 2 | `Could not recover jumptable at 0x0001045d5d68. Too many branches`; `Treating indirect jump as call` |
+
+### Note on Warnings:
+- The PIC warning at `0x10001a840` is an ARM64 PC-relative offset normalization in Ghidra's AST simplifier.
+- The jumptable warnings in routines `0x1000d4c6c` and `0x1000a1d28` refer to the shared external tail-call dispatcher at `0x1045d5d68` (`_objc_autoreleaseReturnValue` stub), which decompiles cleanly as an indirect tail-call call/return.
+
+---
+
+## 6. Reproducibility
+
+Execute the independent validation script directly inside the headless Ghidra environment:
+
+```bash
+/opt/ghidra/support/analyzeHeadless /tmp/ghidra_proj WazeTest \
+    -process Waze \
+    -scriptPath scripts \
+    -postScript TargetAnalysis.java \
+    -noanalysis \
+    -readOnly
+```
+
+Complete execution log is preserved in [`reports/09_target_analysis_validation.md`](../reports/09_target_analysis_validation.md).

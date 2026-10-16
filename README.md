@@ -3,7 +3,7 @@
 [![Analysis Tools](https://img.shields.io/badge/Tools-REA_6.5.0_|_Ghidra_12.1.2-blue.svg)](#analysis-toolchain)
 [![Target](https://img.shields.io/badge/Target-Waze_iOS_v5.22.0_(ARM64)-orange.svg)](#target-overview)
 [![Scope](https://img.shields.io/badge/Scope-Documentation_&_Audit_Only-green.svg)](#research-scope--security-boundary)
-[![Audit Status](https://img.shields.io/badge/Audit-Phase_1.4_Completed-brightgreen.svg)](reports/08_targeted_core_analysis.md)
+[![Audit Status](https://img.shields.io/badge/Audit-Phase_1.4.1_Completed-brightgreen.svg)](reports/09_target_analysis_validation.md)
 
 This repository contains static analysis documentation, architectural models, evidence inventories, and tool verification records from an authorized, read-only reverse engineering audit of the Waze iOS application bundle (`waze.ipa`, v5.22.0).
 
@@ -44,7 +44,8 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`05_architecture_analysis.md`](reports/05_architecture_analysis.md)**: Structural synthesis of core subsystems: application entry & lifecycle (`WazeApp`), map canvas rendering (`MainCanvasViewHolder` & Metal shaders), route state management (`AlternateRoutesStateMachineBridge`), navigation guidance (`NavigationGuidanceReducerBridge`), and location tracking (`WZWazeLocationServiceBridge`).
 - **[`06_reverse_feasibility.md`](reports/06_reverse_feasibility.md)**: Recovery assessment matrix categorized into VERIFIED, PARTIALLY VERIFIED, INFERRED, and BLOCKED; identifies server-dependent boundaries, entitlement constraints, and copyright boundaries.
 - **[`07_consistency_audit.md`](reports/07_consistency_audit.md)**: Comprehensive audit report reconciling all historical discrepancies (file size, SHA-256, iOS minimum version, symbol table definitions) against original ground truth artifacts.
-- **[`08_targeted_core_analysis.md`](reports/08_targeted_core_analysis.md)**: **[NEW - Phase 1.4]** Targeted ARM64 binary analysis and scoped decompilation verification of five non-trivial application routines (100% success rate, 276 ms total execution time, boundary validation, and Objective-C runtime selector reconciliation).
+- **[`08_targeted_core_analysis.md`](reports/08_targeted_core_analysis.md)**: Targeted ARM64 binary analysis and scoped decompilation verification of five non-trivial application routines (100% success rate, boundary validation, and Objective-C runtime selector reconciliation).
+- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: **[NEW - Phase 1.4.1]** Target analysis reproducibility fix and independent validation report; resolves 1,300 vs 1,540 byte boundary discrepancy (6 ranges, 5 gaps), independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
 
 ### 2. Technical Evidence (`evidence/`)
 
@@ -53,11 +54,11 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`analysis_statistics.md`](evidence/analysis_statistics.md)**: Quantitative static analysis metrics, section sizes, string distributions, symbol counts, and Ghidra headless processing benchmarks.
 - **[`tool_verification.md`](evidence/tool_verification.md)**: Tool environment verification records for REA 6.5.0 MCP server, Ghidra 12.1.2 headless analyzer, GNU Binutils, and OpenJDK 27 on Arch Linux.
 - **[`reproducibility_manifest.md`](evidence/reproducibility_manifest.md)**: Step-by-step reproducibility manifest containing exact commands, checksums, Python inspection scripts, and Ghidra headless automation parameters.
-- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: **[NEW - Phase 1.4]** Detailed empirical verification register of the 5 targeted routines, including basic block counts, direct/indirect call counts, decompilation timings, and method metadata.
+- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: **[UPDATED - Phase 1.4.1]** Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
 
 ### 3. Analysis Automation Scripts (`scripts/`)
 
-- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: **[NEW - Phase 1.4]** Standalone Ghidra Headless Analyzer script performing scoped disassembly, CFG generation, call reference tracing, and decompilation across targeted application routines.
+- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: **[UPDATED - Phase 1.4.1]** Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
 
 
 ### 4. Architecture Diagrams (`diagrams/`)

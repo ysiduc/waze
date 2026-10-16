@@ -16,13 +16,14 @@ Phase 1.4 advances the static analysis of the unencrypted (`cryptid=0`) Waze iOS
 
 This investigation systematically addresses the central research question: **Can Ghidra and REA reliably disassemble, construct control-flow graphs (CFGs), and decompile complex, real-world application routines in a 141 MB commercial iOS executable without encountering resource exhaustion?**
 
-By developing and executing an automated headless analysis script ([`scripts/TargetAnalysis.java`](file:///home/ysiduc/.gemini/antigravity-ide/scratch/waze/scripts/TargetAnalysis.java)), five previously identified representative routines across route guidance, map rendering, state machines, and location services were targeted. 
+By developing and executing an automated headless analysis script ([`scripts/TargetAnalysis.java`](scripts/TargetAnalysis.java)), five previously identified representative routines across route guidance, map rendering, state machines, and location services were targeted. 
 
 **Key Findings:**
 1. **100% Decompilation Success Rate (5/5):** All targeted routines—ranging from 16 to 325 instructions and up to 43 basic blocks—decompiled without errors, crashes, or timeouts.
-2. **Sub-Second Scoped Performance:** Bypassing full-program auto-analysis reduced analysis time to **276 ms total across all 5 functions** (average 55.2 ms per routine), proving that scoped headless static analysis is exceptionally performant.
+2. **Sub-Second Scoped Performance:** Bypassing full-program auto-analysis reduced analysis time to sub-second execution (average ~60 ms per routine), proving that scoped headless static analysis is exceptionally performant.
 3. **Exact Boundary & Selector Validation:** By decoding Apple's relative Objective-C method list format (`__TEXT.__objc_methlist`) and Mach-O chained fixups, earlier conjectural method names were replaced with verified runtime selectors (e.g., `0x10001a718` is `applyRouteUpdateWithRouteUpdateProtos:`, not `ParseToRoutingUpdateResponse:`).
-4. **Architectural Ground Truth:** Direct control-flow evidence was established for server route update deserialization, canvas view holder initialization, guidance segment cross-distance computation, and location speed packaging.
+4. **Non-Contiguous Boundary Audit:** Function `0x10001a718` occupies an inclusive address span of 1,540 bytes (`0x10001a718` - `0x10001ad1b`), consisting of 1,300 body bytes across 6 ranges and 240 bytes across 5 internal exception-handling gaps. The other four functions are 100% contiguous.
+5. **Architectural Ground Truth:** Direct control-flow evidence was established for server route update deserialization, canvas view holder initialization, guidance segment cross-distance computation, and location speed packaging.
 
 ---
 
@@ -30,13 +31,13 @@ By developing and executing an automated headless analysis script ([`scripts/Tar
 
 All virtual addresses are based on the standard Mach-O 64-bit load base `0x100000000`.
 
-| Address | Subsystem Component | Ground-Truth Objective-C Selector | Type Signature | Span (Start - End) | Length | Basic Blocks | Calls (Dir/Ind) | Decomp Time | Decompiler Status |
+| Address | Subsystem Component | Ground-Truth Objective-C Selector | Type Signature | Span (Start - End) | Body Bytes (Span) | Basic Blocks | Calls (Dir/Ind) | Decomp Time | Decompiler Status |
 |:---|:---|:---|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| `0x10001a718` | `AlternateRoutesStateMachineBridge` | `applyRouteUpdateWithRouteUpdateProtos:` | `v24@0:8@16` | `0x10001a718` - `0x10001ad1b` | 1,300 B | 43 | 95 / 4 | 228 ms | **SUCCESS** |
-| `0x1000d4b08` | `MainCanvasViewHolder` | `init` | `@16@0:8` | `0x1000d4b08` - `0x1000d4beb` | 228 B | 3 | 13 / 0 | 15 ms | **SUCCESS** |
-| `0x1000d4c6c` | `MainCanvasViewHolder` | `makeGenericCanvasActivator` | `@16@0:8` | `0x1000d4c6c` - `0x1000d4cab` | 64 B | 1 | 3 / 0 | 7 ms | **SUCCESS** |
-| `0x100102264` | `NavigationGuidanceReducerBridge` | `distanceToCrossSegmentWith:` | `q24@0:8q16` | `0x100102264` - `0x1001023eb` | 392 B | 20 | 9 / 3 | 21 ms | **SUCCESS** |
-| `0x1000a1d28` | `WZWazeLocationServiceBridge` | `currentSpeed` | `@16@0:8` | `0x1000a1d28` - `0x1000a1d7f` | 88 B | 5 | 4 / 0 | 5 ms | **SUCCESS** |
+| `0x10001a718` | `AlternateRoutesStateMachineBridge` | `applyRouteUpdateWithRouteUpdateProtos:` | `v24@0:8@16` | `0x10001a718` - `0x10001ad1b` | 1,300 B (1,540 B) | 43 | 95 / 4 | 244 ms | **SUCCESS** |
+| `0x1000d4b08` | `MainCanvasViewHolder` | `init` | `@16@0:8` | `0x1000d4b08` - `0x1000d4beb` | 228 B (228 B) | 3 | 13 / 0 | 16 ms | **SUCCESS** |
+| `0x1000d4c6c` | `MainCanvasViewHolder` | `makeGenericCanvasActivator` | `@16@0:8` | `0x1000d4c6c` - `0x1000d4cab` | 64 B (64 B) | 1 | 3 / 0 | 7 ms | **SUCCESS** |
+| `0x100102264` | `NavigationGuidanceReducerBridge` | `distanceToCrossSegmentWith:` | `q24@0:8q16` | `0x100102264` - `0x1001023eb` | 392 B (392 B) | 20 | 9 / 3 | 30 ms | **SUCCESS** |
+| `0x1000a1d28` | `WZWazeLocationServiceBridge` | `currentSpeed` | `@16@0:8` | `0x1000a1d28` - `0x1000a1d7f` | 88 B (88 B) | 5 | 4 / 0 | 7 ms | **SUCCESS** |
 
 ---
 
@@ -115,13 +116,13 @@ Function boundaries in modern stripped Mach-O binaries can become ambiguous if a
 1. **Architectural Entry & Exit Signatures:**
    - Every routine starts with a standard ARM64 prologue allocating stack space (`sub sp, sp, #imm` or `stp x20, x19, [sp, #-0x20]!`).
    - Every routine terminates with an unambiguous epilogue (`ret` or tail-call branch `b _objc_autoreleaseReturnValue`).
-2. **Contiguity with Adjacent Functions:**
-   - For `0x10001a718`, the function body ends at `0x10001ad1b` (length: 1,300 bytes). The immediately adjacent byte at `0x10001ad1c` is the exact verified entry point of callee sub-handler `sub_10001ad1c`.
-   - For `0x1000d4b08`, the function body ends at `0x1000d4beb` (228 bytes). The byte at `0x1000d4bec` begins helper subroutine `sub_1000d4bec`.
+2. **Contiguity and Internal Layout:**
+   - For `0x10001a718`, the inclusive address span extends from `0x10001a718` to `0x10001ad1b` (1,540 bytes). The executable body comprises 1,300 bytes (325 instructions) distributed across 6 non-contiguous address ranges. The remaining 240 bytes consist of 5 internal exception-handling gaps (`0x10001aba4`-`0x10001ac23`, `0x10001ac2c`-`0x10001ac2f`, `0x10001ac3c`-`0x10001ac7f`, `0x10001ac8c`-`0x10001acaf`, `0x10001acc4`-`0x10001acc7`) containing landing pads (`mov x20, x0; bl ...`) separated by Clang/LLVM basic block scheduling. The immediately adjacent byte at `0x10001ad1c` begins the next callee handler.
+   - For the remaining four routines (`0x1000d4b08`, `0x1000d4c6c`, `0x100102264`, `0x1000a1d28`), each function body is 100% contiguous (1 range, 0 gaps), with body size matching the inclusive span exactly.
 3. **Objective-C Runtime Method Metadata:**
-   - Parsing the relative method structures in `__TEXT.__objc_methlist` verified that the relative implementation offsets (`imp_offset`) calculate exact entry addresses matching Ghidra's function entry points.
+   - Dynamically parsing the relative method structures in `__TEXT.__objc_methlist` verified that the relative implementation offsets (`imp_offset`) calculate exact entry addresses matching Ghidra's function entry points.
 
-**Conclusion:** Function boundaries established by scoped Ghidra analysis are structurally sound and exhibit 100% alignment with compiler output.
+**Conclusion:** Function boundaries established by scoped Ghidra analysis are structurally sound and exhibit 100% alignment with compiler output. Detailed range and gap proofs are documented in `reports/09_target_analysis_validation.md`.
 
 ---
 
@@ -191,7 +192,7 @@ Continued full-program static analysis is **not worthwhile** due to the astronom
 However, **continued selective static analysis is highly worthwhile** for targeted investigations:
 1. **Targeted State Machine Audits:** Scoped scripts can trace all callers of `applyRouteUpdateWithRouteUpdateProtos:` to extract the exact Protobuf schema and state machine transitions.
 2. **Clean-Room Specification Development:** Decompiling boundary bridges (like `NavigationGuidanceReducerBridge` and `WZWazeLocationServiceBridge`) reveals the precise data schemas, units (speed, distance), and event structures required for clean-room interoperability.
-3. **Reproducible Automation:** The developed [`scripts/TargetAnalysis.java`](file:///home/ysiduc/.gemini/antigravity-ide/scratch/waze/scripts/TargetAnalysis.java) script executes in under 30 seconds (including binary import) and can be extended to analyze additional subsystems on demand.
+3. **Reproducible Automation:** The developed [`scripts/TargetAnalysis.java`](scripts/TargetAnalysis.java) script executes in under 30 seconds (including binary import) and can be extended to analyze additional subsystems on demand.
 
 ---
 
@@ -218,11 +219,12 @@ mkdir -p /tmp/ghidra_proj
     -noanalysis \
     -readOnly
 ```
-*Expected Time:* ~5–10 seconds. Decompilation time: ~276 ms. Output confirms 5/5 routines verified.
+*Expected Time:* ~5–10 seconds. Decompilation time: ~304 ms. Output confirms 5/5 routines independently verified.
 
 ---
 
 ## Artifact Index
-- Scoped Analysis Automation Script: [`scripts/TargetAnalysis.java`](file:///home/ysiduc/.gemini/antigravity-ide/scratch/waze/scripts/TargetAnalysis.java)
-- Full Empirical Verification Table: [`evidence/targeted_function_results.md`](file:///home/ysiduc/.gemini/antigravity-ide/scratch/waze/evidence/targeted_function_results.md)
+- Scoped Analysis Automation Script: [`scripts/TargetAnalysis.java`](scripts/TargetAnalysis.java)
+- Independent Validation & Reproducibility Report: [`reports/09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)
+- Full Empirical Verification Table: [`evidence/targeted_function_results.md`](evidence/targeted_function_results.md)
 - Complete Decompiled Routine Listings: `evidence/decompiled/` (retained locally in workspace)
