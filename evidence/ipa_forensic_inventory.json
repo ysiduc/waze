@@ -1,0 +1,80 @@
+{
+  "ipa_archive": {
+    "file_name": "waze.ipa",
+    "file_size": 114712520,
+    "sha256": "78c54a3db510c7d2142baeb13dd773c2f7774a3e4d99fb9a4cc966941086a158",
+    "total_archive_entries": 2435
+  },
+  "bundle_metadata": {
+    "bundle_id": "com.waze.iphone",
+    "version": "5.22.0",
+    "build": "1",
+    "executable": "Waze",
+    "minimum_os_version": "16.0",
+    "required_capabilities": [
+      "arm64"
+    ],
+    "background_modes": [
+      "audio",
+      "external-accessory",
+      "fetch",
+      "location",
+      "remote-notification"
+    ]
+  },
+  "embedded_frameworks": [
+    "SpotifyiOS.framework"
+  ],
+  "app_extensions": [
+    "NotificationExtension.appex",
+    "WazeShareExtension.appex"
+  ],
+  "internal_resource_bundles": [
+    "gRPCCertificates.bundle",
+    "waze_SingleSessionImplementation.bundle",
+    "waze_WazeAlertReportUIImplementation.bundle",
+    "waze_WazeAlternateRoutesImplementation.bundle",
+    "waze_WazeAskImplementation.bundle",
+    "waze_WazeAudioImplementation.bundle",
+    "waze_WazeButtonPackImplementation.bundle",
+    "waze_WazeCarPlayImplementation.bundle",
+    "waze_WazeCommonUI.bundle",
+    "waze_WazeCompaninioExperimentalUIImplementation.bundle",
+    "waze_WazeConversationImplementation.bundle",
+    "waze_WazeConversationalReportingImplementation.bundle",
+    "waze_WazeForceUpgradeImplementation.bundle",
+    "waze_WazeGpsIssue.bundle",
+    "waze_WazeHoyNoCirculaImplementation.bundle",
+    "waze_WazeMainScreenImplementation.bundle",
+    "waze_WazeMapOverlay.bundle",
+    "waze_WazeOnboardingImplementation.bundle",
+    "waze_WazeReportingAgentImplementation.bundle",
+    "waze_WazeRestrictionsImplementation.bundle",
+    "waze_WazeSearchImplementation.bundle",
+    "waze_WazeSearchMateImplementation.bundle",
+    "waze_WazeSearchResultsUI.bundle",
+    "waze_WazeShareDriveImplementation.bundle",
+    "waze_WazeSplashImplementation.bundle",
+    "waze_WazeToGoalImplementation.bundle",
+    "waze_WazeTripOverviewImplementation.bundle",
+    "waze_WazeUIKit.bundle",
+    "waze_WazeViews.bundle"
+  ],
+  "gpu_shaders": [
+    "Payload/Waze.app/default.metallib"
+  ],
+  "ui_resources": {
+    "compiled_nibs": 58,
+    "lottie_animations": 75,
+    "png_assets": 1754,
+    "localization_languages": 65
+  },
+  "main_binary": {
+    "path": "Payload/Waze.app/Waze",
+    "size": 141425424,
+    "sha256": "0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80",
+    "architecture": "ARM64",
+    "mach_o_type": "MH_EXECUTE",
+    "encryption": "cryptid = 0 (Unencrypted)"
+  }
+}
