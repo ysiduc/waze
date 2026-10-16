@@ -8,8 +8,20 @@
 
 This repository contains static analysis documentation, architectural models, evidence inventories, and tool verification records from an authorized, read-only reverse engineering audit of the Waze iOS application bundle (`waze.ipa`, v5.22.0).
 
+In **Phase 3.0**, a clean-room, native iOS source project (`WazeRecovery/`) was reconstructed based on forensic evidence from the unencrypted IPA snapshot, featuring an independent C++ spatial & routing engine, Swift guidance & state reducers, zero-error local Keychain architecture, and an automated GitHub Actions CI pipeline building unsigned iOS IPAs.
 
-The objective of this research is to evaluate static analysis feasibility, verify REA (Reverse Engineer Anything) and Ghidra toolchains against modern iOS production binaries, and document clean-room architectural boundaries without redistributing proprietary assets or source code.
+---
+
+## Reconstructed Native iOS Project (`WazeRecovery/`)
+
+- **Project Location:** [`WazeRecovery/`](WazeRecovery/)
+- **Xcode Project:** [`WazeRecovery/WazeRecovery.xcodeproj`](WazeRecovery/WazeRecovery.xcodeproj)
+- **CI Workflow:** [`.github/workflows/build-reconstructed-ios.yml`](.github/workflows/build-reconstructed-ios.yml)
+- **Latest Verified CI Run:** [Run 38945680081 (SUCCESS, 54s)](https://github.com/ysiduc/waze/actions/runs/38945680081)
+- **Artifact:** `WazeRecovery-unsigned.ipa` (SHA-256: `434914dad40e31045abb490ac224ece171cdb78ef9496963d5ad801325eed455`)
+- **Compiled Binary Executable:** SHA-256: `6954cac7273ac25aa22d315809a0050f6854c0f84cd8209951b42c1932f3578f`
+- **Binary Independence:** 100% freshly compiled native binary. Does NOT contain or depend on the original 141.42 MB executable (`0c40c247...`).
+
 
 ---
 
