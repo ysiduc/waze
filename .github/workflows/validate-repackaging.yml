@@ -33,7 +33,10 @@ jobs:
           EXPECTED_BINARY_SHA256="0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80"
           
           if [ -n "${{ github.event.inputs.bundle_source_url }}" ]; then
+            echo "================================================================================"
+            echo "MODE: REAL APPLICATION BUNDLE VALIDATION"
             echo "Authorized private bundle URL provided. Downloading unencrypted bundle archive..."
+            echo "================================================================================"
             curl -sSL "${{ github.event.inputs.bundle_source_url }}" -o /tmp/waze_bundle.tar.gz
             mkdir -p /tmp/extracted_bundle
             tar -xzf /tmp/waze_bundle.tar.gz -C /tmp/extracted_bundle
@@ -44,14 +47,39 @@ jobs:
               exit 1
             fi
             
+            # Verify main executable hash before packaging
+            MAIN_BIN="$APP_DIR/Waze"
+            ACTUAL_HASH=$(sha256sum "$MAIN_BIN" | awk '{print $1}')
+            echo "Actual Main Binary SHA-256:   $ACTUAL_HASH"
+            echo "Expected Main Binary SHA-256: $EXPECTED_BINARY_SHA256"
+            
+            if [ "$ACTUAL_HASH" != "$EXPECTED_BINARY_SHA256" ]; then
+              echo "ERROR: Binary hash mismatch! Expected $EXPECTED_BINARY_SHA256, got $ACTUAL_HASH"
+              exit 1
+            fi
+            echo "Binary hash verified successfully."
+            
             echo "Running full audit and repackaging on authorized bundle..."
             python3 scripts/repackage_and_validate.py \
               --app-dir "$APP_DIR" \
               --output-ipa build_output/Waze-repackaged.ipa
               
+            cat << EOF > reports_output/CI_PACKAGE_VALIDATION_REPORT.md
+# CI Package Validation & Integrity Report: REAL BUNDLE MODE
+
+- **Validation Mode:** REAL APPLICATION BUNDLE (Authorized Private Source)
+- **Workflow:** Validate Original IPA Packaging & Integrity
+- **Trigger:** workflow_dispatch
+- **Main Binary Hash Verification:** PASSED
+  - Verified SHA-256: \`$ACTUAL_HASH\`
+- **Application Bundle Integrity:** Verified with all internal frameworks, plugins, and resources.
+- **Automated Code Signing:** NOT PERFORMED (Intentionally omitted; user-managed developer signing required)
+- **Installability Status:** UNVERIFIED / PENDING (Cannot claim installable until developer-signed and tested on physical iPhone hardware)
+EOF
+
           else
             echo "================================================================================"
-            echo "PUBLIC CI ENVIRONMENT NOTICE:"
+            echo "MODE: SYNTHETIC STRUCTURE VALIDATION (Public CI Environment)"
             echo "Proprietary third-party binaries (waze.ipa, Waze Mach-O, assets) are strictly"
             echo "excluded from public repository storage per copyright and distribution compliance."
             echo "Executing structural compliance verification using synthetic test bundle..."
@@ -95,20 +123,21 @@ for p in ['/tmp/synthetic/Payload/Waze.app/Waze',
             python3 scripts/repackage_and_validate.py \
               --app-dir /tmp/synthetic/Payload/Waze.app \
               --output-ipa build_output/Synthetic-validation.ipa
+              
+            cat << 'EOF' > reports_output/CI_PACKAGE_VALIDATION_REPORT.md
+# CI Package Validation & Integrity Report: SYNTHETIC TEST MODE
+
+- **Validation Mode:** SYNTHETIC STRUCTURE TEST (Public CI Environment)
+- **Workflow:** Validate Original IPA Packaging & Integrity
+- **Trigger:** workflow_dispatch
+- **Real Binary Tested:** NO (Proprietary assets excluded from public GitHub storage)
+- **Expected Real Binary SHA-256:** `0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80`
+- **Synthetic Structure Audit:** PASSED (Validates directory hierarchy, ZIP packaging, and Mach-O header parsing)
+- **Automated Code Signing:** NOT PERFORMED (Intentionally omitted; user-managed signing required)
+- **Installability Status:** UNVERIFIED / PENDING (Synthetic package cannot be installed)
+- **Local Real Testing Instructions:** Execute `scripts/repackage_and_validate.py` in the local Arch Linux research environment where original `waze.ipa` is present.
+EOF
           fi
-
-      - name: Generate Package Validation Artifact Report
-        run: |
-          cat << 'EOF' > reports_output/CI_PACKAGE_VALIDATION_REPORT.md
-          # CI Package Validation & Integrity Report
-
-          - **Workflow:** Validate Original IPA Packaging & Integrity
-          - **Trigger:** workflow_dispatch
-          - **Expected Main Binary SHA-256:** `0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80`
-          - **Automated Code Signing:** NOT PERFORMED (Intentionally omitted; user-managed signing required)
-          - **Installability Status:** PENDING (Cannot claim installable until developer-signed and tested on physical hardware)
-          - **Proprietary Binary Policy:** Public GitHub repositories cannot host proprietary Waze application assets. For physical testing, execute `scripts/repackage_and_validate.py` in the local Arch Linux research environment where original artifacts reside.
-          EOF
           cat reports_output/CI_PACKAGE_VALIDATION_REPORT.md
 
       - name: Upload Validation Report Artifact

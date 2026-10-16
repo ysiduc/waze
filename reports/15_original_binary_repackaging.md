@@ -158,7 +158,12 @@ python3 scripts/repackage_and_validate.py \
 8. **Are required entitlements available to an independent developer?**  
    **NO.** Several core entitlements (`com.apple.developer.carplay-maps`, Google-team App Groups, App Attest, and APNs push environments) cannot be issued to an arbitrary developer account.
 9. **Can the IPA be expected to install on an iPhone?**  
-   **YES, under developer sideloading tools** (e.g., AltStore, Sideloadly, or `codesign + ldid`), provided the bundle identifier is re-keyed to the developer's team and an active provisioning profile is embedded.
+   **NO (Cannot be guaranteed; currently UNVERIFIED without physical device test).**  
+   - **As currently packaged:** The IPA **CANNOT** install on any non-jailbroken iOS device. It retains the original App Store code signature and completely lacks an `embedded.mobileprovision` profile. The iOS daemon `installd` strictly rejects unprovisioned or mismatched binaries at the verification stage.  
+   - **Under developer sideloading / re-signing:** Installation is **CONDITIONAL and NOT GUARANTEED**. Sideloading tools (AltStore, Sideloadly) or manual `codesign` workflows will fail unless:  
+     a) The bundle identifier and both embedded app extensions (`NotificationExtension.appex`, `WazeShareExtension.appex`) are re-keyed to matching App IDs provisioned under the user's Apple Team ID (free personal accounts cannot manage multi-target extensions or App Groups).  
+     b) Non-transferable entitlements (`com.apple.developer.carplay-maps`, Google-team Keychain groups, App Groups) are stripped or remapped, or `installd` will terminate installation with `ApplicationVerificationFailed`.  
+     c) Physical hardware testing on an actual iPhone is required; until such testing is performed, installation status remains **UNVERIFIED / PENDING**.
 10. **Which App Store functions might fail after independent signing?**  
     - **Push Notifications (APNs):** Server-side token mismatch.
     - **CarPlay Head-Unit Rendering:** Unless Apple approves the CarPlay entitlement for the test certificate.
