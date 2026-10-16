@@ -46,47 +46,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		E90A2AF9228D3A26787B6DC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "App/AppDelegate.swift"; sourceTree = "<group>"; };
-		F0407132ECA70F26678E253D /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "App/Configuration/AppConfiguration.swift"; sourceTree = "<group>"; };
-		06EEEA01B33E35E9B5056BFF /* AppLaunchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "App/Lifecycle/AppLaunchCoordinator.swift"; sourceTree = "<group>"; };
-		091054B5BEA41C7C17564D9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "App/SceneDelegate.swift"; sourceTree = "<group>"; };
-		EC2FFA9B26F448734E25770A /* Coordinate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "NativeEngine/Geometry/Coordinate.cpp"; sourceTree = "<group>"; };
-		2E161FEE82DAE9E1D9EDDCF1 /* Polyline.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "NativeEngine/Geometry/Polyline.cpp"; sourceTree = "<group>"; };
-		E481267E0209B0FC091F8996 /* NativeEngineBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "NativeEngine/Interop/NativeEngineBridge.mm"; sourceTree = "<group>"; };
-		32EA9E2F00271EE58A78376D /* CanvasRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "NativeEngine/Rendering/CanvasRenderer.cpp"; sourceTree = "<group>"; };
-		5F4EFEC355CE7DD571B60F04 /* CanvasRenderer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "NativeEngine/Rendering/CanvasRenderer.metal"; sourceTree = "<group>"; };
-		084E9862F24C30FB391D2892 /* RoutingEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "NativeEngine/Routing/RoutingEngine.cpp"; sourceTree = "<group>"; };
-		EAEFE3EC9E658DF09646282E /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Package.swift"; sourceTree = "<group>"; };
-		EF7D8DE0E7054874A05899B8 /* WZCarPlayMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/CarPlay/WZCarPlayMapController.swift"; sourceTree = "<group>"; };
-		C584AD46F08C70CA5217727C /* MainCanvasViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Core/MainCanvasViewHolder.swift"; sourceTree = "<group>"; };
-		3C8D8ECCC615CA63C19C648B /* ServiceRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Core/ServiceRegistry.swift"; sourceTree = "<group>"; };
-		0DD534055CFFF824A59FEA0F /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Core/Types.swift"; sourceTree = "<group>"; };
-		7CB76A181B0F38527E9AED93 /* WZWazeLocationServiceBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Location/WZWazeLocationServiceBridge.swift"; sourceTree = "<group>"; };
-		403F324E870FE67716F0CB50 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Models/LocationModel.swift"; sourceTree = "<group>"; };
-		3A8AEE5A22C7B6AB58711D36 /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Models/NavigationState.swift"; sourceTree = "<group>"; };
-		FCF0B1AF1D33AA17E39179A0 /* RouteModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Models/RouteModels.swift"; sourceTree = "<group>"; };
-		71633FF131E14E2D2C55F779 /* SearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Models/SearchModels.swift"; sourceTree = "<group>"; };
-		057DB26268F395C91F822722 /* ManeuverType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Navigation/ManeuverType.swift"; sourceTree = "<group>"; };
-		8E59B8AE79C7D486B03A9357 /* NavigationGuidanceReducerBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Navigation/NavigationGuidanceReducerBridge.swift"; sourceTree = "<group>"; };
-		CE76159D57F094A12BFA4771 /* LocalSimulatedRoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Networking/LocalSimulatedRoutingService.swift"; sourceTree = "<group>"; };
-		F69250659FDB14B194F75504 /* RoutingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Networking/RoutingServiceProtocol.swift"; sourceTree = "<group>"; };
-		4A8254A6B67F5DE269ACDA4D /* KeychainStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Persistence/KeychainStorageService.swift"; sourceTree = "<group>"; };
-		D6195787BA137F05961129C9 /* UserPreferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Persistence/UserPreferencesService.swift"; sourceTree = "<group>"; };
-		3EBE7A092D1A564D7A2225F2 /* AlternateRoutesStateMachineBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Routing/AlternateRoutesStateMachineBridge.swift"; sourceTree = "<group>"; };
-		23DCF3C6BB63BDA0163C59EE /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/Search/SearchEngine.swift"; sourceTree = "<group>"; };
-		3289E15B2A440B7A2731372F /* WazeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/Common/WazeButton.swift"; sourceTree = "<group>"; };
-		63C422E4AA84A8C3A964442B /* WazeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/Common/WazeTheme.swift"; sourceTree = "<group>"; };
-		C0CB58049943211CA64D6689 /* MainCanvasContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/MainCanvas/MainCanvasContainerViewController.swift"; sourceTree = "<group>"; };
-		71B191EDD12AA6798DF0E527 /* NavigationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/Overlays/NavigationBannerView.swift"; sourceTree = "<group>"; };
-		34BCE85F833BD9AD177B9B9C /* SpeedometerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/Overlays/SpeedometerView.swift"; sourceTree = "<group>"; };
-		53253E1508D020687BC4E89C /* RoutePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/RoutePreview/RoutePreviewView.swift"; sourceTree = "<group>"; };
-		D8753DBA0BCD24D02D9B7E17 /* SearchDrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/Search/SearchDrawerViewController.swift"; sourceTree = "<group>"; };
-		C2AE4F033EC5F98CF967C061 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode; path = "Sources/UI/Welcome/WelcomeViewController.swift"; sourceTree = "<group>"; };
+		E90A2AF9228D3A26787B6DC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/AppDelegate.swift"; sourceTree = "<group>"; };
+		F0407132ECA70F26678E253D /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Configuration/AppConfiguration.swift"; sourceTree = "<group>"; };
+		06EEEA01B33E35E9B5056BFF /* AppLaunchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Lifecycle/AppLaunchCoordinator.swift"; sourceTree = "<group>"; };
+		091054B5BEA41C7C17564D9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/SceneDelegate.swift"; sourceTree = "<group>"; };
+		EC2FFA9B26F448734E25770A /* Coordinate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "NativeEngine/Geometry/Coordinate.cpp"; sourceTree = "<group>"; };
+		2E161FEE82DAE9E1D9EDDCF1 /* Polyline.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "NativeEngine/Geometry/Polyline.cpp"; sourceTree = "<group>"; };
+		E481267E0209B0FC091F8996 /* NativeEngineBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NativeEngine/Interop/NativeEngineBridge.mm"; sourceTree = "<group>"; };
+		32EA9E2F00271EE58A78376D /* CanvasRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "NativeEngine/Rendering/CanvasRenderer.cpp"; sourceTree = "<group>"; };
+		5F4EFEC355CE7DD571B60F04 /* CanvasRenderer.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "NativeEngine/Rendering/CanvasRenderer.metal"; sourceTree = "<group>"; };
+		084E9862F24C30FB391D2892 /* RoutingEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "NativeEngine/Routing/RoutingEngine.cpp"; sourceTree = "<group>"; };
+		EAEFE3EC9E658DF09646282E /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Package.swift"; sourceTree = "<group>"; };
+		EF7D8DE0E7054874A05899B8 /* WZCarPlayMapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/CarPlay/WZCarPlayMapController.swift"; sourceTree = "<group>"; };
+		C584AD46F08C70CA5217727C /* MainCanvasViewHolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Core/MainCanvasViewHolder.swift"; sourceTree = "<group>"; };
+		3C8D8ECCC615CA63C19C648B /* ServiceRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Core/ServiceRegistry.swift"; sourceTree = "<group>"; };
+		0DD534055CFFF824A59FEA0F /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Core/Types.swift"; sourceTree = "<group>"; };
+		7CB76A181B0F38527E9AED93 /* WZWazeLocationServiceBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Location/WZWazeLocationServiceBridge.swift"; sourceTree = "<group>"; };
+		403F324E870FE67716F0CB50 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/LocationModel.swift"; sourceTree = "<group>"; };
+		3A8AEE5A22C7B6AB58711D36 /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/NavigationState.swift"; sourceTree = "<group>"; };
+		FCF0B1AF1D33AA17E39179A0 /* RouteModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/RouteModels.swift"; sourceTree = "<group>"; };
+		71633FF131E14E2D2C55F779 /* SearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/SearchModels.swift"; sourceTree = "<group>"; };
+		057DB26268F395C91F822722 /* ManeuverType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Navigation/ManeuverType.swift"; sourceTree = "<group>"; };
+		8E59B8AE79C7D486B03A9357 /* NavigationGuidanceReducerBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Navigation/NavigationGuidanceReducerBridge.swift"; sourceTree = "<group>"; };
+		CE76159D57F094A12BFA4771 /* LocalSimulatedRoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Networking/LocalSimulatedRoutingService.swift"; sourceTree = "<group>"; };
+		F69250659FDB14B194F75504 /* RoutingServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Networking/RoutingServiceProtocol.swift"; sourceTree = "<group>"; };
+		4A8254A6B67F5DE269ACDA4D /* KeychainStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Persistence/KeychainStorageService.swift"; sourceTree = "<group>"; };
+		D6195787BA137F05961129C9 /* UserPreferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Persistence/UserPreferencesService.swift"; sourceTree = "<group>"; };
+		3EBE7A092D1A564D7A2225F2 /* AlternateRoutesStateMachineBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Routing/AlternateRoutesStateMachineBridge.swift"; sourceTree = "<group>"; };
+		23DCF3C6BB63BDA0163C59EE /* SearchEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Search/SearchEngine.swift"; sourceTree = "<group>"; };
+		3289E15B2A440B7A2731372F /* WazeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/Common/WazeButton.swift"; sourceTree = "<group>"; };
+		63C422E4AA84A8C3A964442B /* WazeTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/Common/WazeTheme.swift"; sourceTree = "<group>"; };
+		C0CB58049943211CA64D6689 /* MainCanvasContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/MainCanvas/MainCanvasContainerViewController.swift"; sourceTree = "<group>"; };
+		71B191EDD12AA6798DF0E527 /* NavigationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/Overlays/NavigationBannerView.swift"; sourceTree = "<group>"; };
+		34BCE85F833BD9AD177B9B9C /* SpeedometerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/Overlays/SpeedometerView.swift"; sourceTree = "<group>"; };
+		53253E1508D020687BC4E89C /* RoutePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/RoutePreview/RoutePreviewView.swift"; sourceTree = "<group>"; };
+		D8753DBA0BCD24D02D9B7E17 /* SearchDrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/Search/SearchDrawerViewController.swift"; sourceTree = "<group>"; };
+		C2AE4F033EC5F98CF967C061 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/UI/Welcome/WelcomeViewController.swift"; sourceTree = "<group>"; };
 		779CB2168472E6068894E6CF /* Coordinate.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativeEngine/Geometry/Coordinate.hpp"; sourceTree = "<group>"; };
 		342DC29537F51422F07055DB /* Polyline.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativeEngine/Geometry/Polyline.hpp"; sourceTree = "<group>"; };
 		F4638AA0D2389BD29EB75583 /* NativeEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativeEngine/Interop/NativeEngineBridge.h"; sourceTree = "<group>"; };
 		C3171984159AC3DDF7B237E8 /* CanvasRenderer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativeEngine/Rendering/CanvasRenderer.hpp"; sourceTree = "<group>"; };
 		D41464E489E73EEF2B9BA001 /* RoutingEngine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativeEngine/Routing/RoutingEngine.hpp"; sourceTree = "<group>"; };
+		9D4B1627608614899643B63A /* WazeRecovery-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Resources/WazeRecovery-Bridging-Header.h"; sourceTree = "<group>"; };
 		868E3100871253A4B76A0E36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Resources/Info.plist"; sourceTree = "<group>"; };
 		45E0D2347F18BC33F2C57A94 /* WazeRecovery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WazeRecovery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -146,6 +147,7 @@
 				F4638AA0D2389BD29EB75583 /* NativeEngineBridge.h */,
 				C3171984159AC3DDF7B237E8 /* CanvasRenderer.hpp */,
 				D41464E489E73EEF2B9BA001 /* RoutingEngine.hpp */,
+				9D4B1627608614899643B63A /* WazeRecovery-Bridging-Header.h */,
 				868E3100871253A4B76A0E36 /* Info.plist */,
 				45E0D2347F18BC33F2C57A94 /* WazeRecovery.app */,
 			);
@@ -280,6 +282,10 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"NativeEngine",
+				);
 				INFOPLIST_FILE = "Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -292,6 +298,7 @@
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "Resources/WazeRecovery-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -310,6 +317,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"NativeEngine",
+				);
 				INFOPLIST_FILE = "Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -321,6 +332,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OBJC_BRIDGING_HEADER = "Resources/WazeRecovery-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

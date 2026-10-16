@@ -50,7 +50,16 @@ def main():
         file_id = make_id("FILE_" + s)
         build_id = make_id("BUILD_" + s)
         fname = os.path.basename(s)
-        pbx_file_refs.append(f'\t\t{file_id} /* {fname} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode; path = "{s}"; sourceTree = "<group>"; }};')
+        ftype = "sourcecode"
+        if s.endswith('.swift'):
+            ftype = "sourcecode.swift"
+        elif s.endswith('.cpp'):
+            ftype = "sourcecode.cpp.cpp"
+        elif s.endswith('.mm'):
+            ftype = "sourcecode.cpp.objcpp"
+        elif s.endswith('.metal'):
+            ftype = "sourcecode.metal"
+        pbx_file_refs.append(f'\t\t{file_id} /* {fname} */ = {{isa = PBXFileReference; lastKnownFileType = {ftype}; path = "{s}"; sourceTree = "<group>"; }};')
         pbx_build_files.append(f'\t\t{build_id} /* {fname} in Sources */ = {{isa = PBXBuildFile; fileRef = {file_id} /* {fname} */; }};')
         pbx_sources_build_phase.append(f'\t\t\t\t{build_id} /* {fname} in Sources */,')
         group_children.append(f'\t\t\t\t{file_id} /* {fname} */,')
@@ -210,6 +219,10 @@ def main():
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"NativeEngine",
+				);
 				INFOPLIST_FILE = "Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -222,6 +235,7 @@ def main():
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "Resources/WazeRecovery-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -240,6 +254,10 @@ def main():
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"NativeEngine",
+				);
 				INFOPLIST_FILE = "Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -251,6 +269,7 @@ def main():
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OBJC_BRIDGING_HEADER = "Resources/WazeRecovery-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
