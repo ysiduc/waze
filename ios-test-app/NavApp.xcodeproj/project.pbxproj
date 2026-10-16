@@ -1,0 +1,437 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+/* Begin PBXBuildFile section */
+		B3E7AE0BB74B58218122B3E7 /* NavApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BD77B8B6DF550CAEB8D0D9 /* NavApp.swift */; };
+		108B7360E4D05B979D304FA2 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3AB605180E54DFBD1CCE7D /* NavigationState.swift */; };
+		075B8938B0F55222A99E3327 /* ManeuverType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A8A1E4E3555E29A0B13B92 /* ManeuverType.swift */; };
+		9F3C856FF8B65DB1A30526F6 /* GuidanceStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582FE1CF73A952D18087F831 /* GuidanceStep.swift */; };
+		1595A90E7546532499EAD2F7 /* RouteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A727089B875FD699E2325A /* RouteModel.swift */; };
+		A69CFA465FB052ABBC840D79 /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 219F3EDD2FA75BE489EFB500 /* LocationModel.swift */; };
+		4DCFF5E78DC954C38F6F0297 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C2A807DE05E58BEBD4E69 /* SearchResult.swift */; };
+		717CE7A335A354708D578C4C /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90DBD36BF572EAE91785D /* Formatters.swift */; };
+		E0E12272BCB75ACCB750927B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E737FCFAEF9A5A089DB59344 /* LocationService.swift */; };
+		B84FC7B9D27A52B19D7F46BC /* RoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCEFC9DA0D5510E96F933C7 /* RoutingService.swift */; };
+		CF56B5BA98E05E20A152A12D /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF6A2C871B55799894EC0D2 /* SearchService.swift */; };
+		71EABB36A83350418B540957 /* NavigationSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8238A80C7E05DFE90934FA7 /* NavigationSessionManager.swift */; };
+		06E370F406AA51DE8CFC190A /* MapViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0814C04FDB8B50FAB60CFE9E /* MapViewContainer.swift */; };
+		6E930F8F0EA15B7DBE36204A /* TopGuidanceBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35036A8CD7235484A31F0D57 /* TopGuidanceBannerView.swift */; };
+		6BD4F62717A45752B1A78A28 /* BottomControlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CE3412A95F508F8694F890 /* BottomControlPanelView.swift */; };
+		C9ADC9E195025DDE9BED0A03 /* SearchSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE3C22B0EBF587EA90D5C57 /* SearchSheetView.swift */; };
+		9BAAF8ACD1FC517F8A24366C /* DemoControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7F6A38288E525AB430E689 /* DemoControlView.swift */; };
+		7C7C071B725B55358FE2CBD4 /* MainNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9721AE268AB5492BDAC9797 /* MainNavigationView.swift */; };
+		C8FADCCB729D510DA8F5FEFF /* NavigationStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF2F739B320555E8813F2EA /* NavigationStateTests.swift */; };
+		C1DB611DAF455135A0DCA7AC /* FormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B751B20505C45877A1CA3DC0 /* FormattingTests.swift */; };
+		8AF4E6D2E289514893BFCF1F /* RouteModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB26E8500EE551DBE00D150 /* RouteModelTests.swift */; };
+		CFB3F1758CD756D086CF9BC6 /* LocationModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9A9F7E90FE5F80B00594AC /* LocationModelTests.swift */; };
+		4A611781A00050919D3CCFAE /* NavigationSessionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA521F9DA7B5235B5D3C36C /* NavigationSessionManagerTests.swift */; };
+/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		810CE15CA958524EAD5D736F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FD499BA2856516C8DC0A8E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B0D6E03ACC9E520784264633;
+			remoteInfo = NavApp;
+		};
+/* End PBXContainerItemProxy section */
+/* Begin PBXFileReference section */
+		A9A2565E00935D078155895C /* NavApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NavApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E42CD1C608EB5157A3AC31A5 /* NavAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50BD77B8B6DF550CAEB8D0D9 /* NavApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavApp.swift"; sourceTree = "<group>"; };
+		4A3AB605180E54DFBD1CCE7D /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationState.swift"; sourceTree = "<group>"; };
+		63A8A1E4E3555E29A0B13B92 /* ManeuverType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ManeuverType.swift"; sourceTree = "<group>"; };
+		582FE1CF73A952D18087F831 /* GuidanceStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GuidanceStep.swift"; sourceTree = "<group>"; };
+		E1A727089B875FD699E2325A /* RouteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RouteModel.swift"; sourceTree = "<group>"; };
+		219F3EDD2FA75BE489EFB500 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationModel.swift"; sourceTree = "<group>"; };
+		F42C2A807DE05E58BEBD4E69 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResult.swift"; sourceTree = "<group>"; };
+		E9D90DBD36BF572EAE91785D /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatters.swift"; sourceTree = "<group>"; };
+		E737FCFAEF9A5A089DB59344 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationService.swift"; sourceTree = "<group>"; };
+		BCCEFC9DA0D5510E96F933C7 /* RoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoutingService.swift"; sourceTree = "<group>"; };
+		4FF6A2C871B55799894EC0D2 /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchService.swift"; sourceTree = "<group>"; };
+		A8238A80C7E05DFE90934FA7 /* NavigationSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationSessionManager.swift"; sourceTree = "<group>"; };
+		0814C04FDB8B50FAB60CFE9E /* MapViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapViewContainer.swift"; sourceTree = "<group>"; };
+		35036A8CD7235484A31F0D57 /* TopGuidanceBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopGuidanceBannerView.swift"; sourceTree = "<group>"; };
+		11CE3412A95F508F8694F890 /* BottomControlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomControlPanelView.swift"; sourceTree = "<group>"; };
+		7EE3C22B0EBF587EA90D5C57 /* SearchSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchSheetView.swift"; sourceTree = "<group>"; };
+		BC7F6A38288E525AB430E689 /* DemoControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoControlView.swift"; sourceTree = "<group>"; };
+		A9721AE268AB5492BDAC9797 /* MainNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainNavigationView.swift"; sourceTree = "<group>"; };
+		ADF2F739B320555E8813F2EA /* NavigationStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationStateTests.swift"; sourceTree = "<group>"; };
+		B751B20505C45877A1CA3DC0 /* FormattingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FormattingTests.swift"; sourceTree = "<group>"; };
+		CAB26E8500EE551DBE00D150 /* RouteModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RouteModelTests.swift"; sourceTree = "<group>"; };
+		9B9A9F7E90FE5F80B00594AC /* LocationModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocationModelTests.swift"; sourceTree = "<group>"; };
+		6FA521F9DA7B5235B5D3C36C /* NavigationSessionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationSessionManagerTests.swift"; sourceTree = "<group>"; };
+		1E2DA06392C45FA3827B7730 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+/* Begin PBXFrameworksBuildPhase section */
+		489B3F04986B584495885249 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACB3D0282915592D95518DC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXGroup section */
+		11F912EE750056D59CB9E342 = {
+			isa = PBXGroup;
+			children = (
+				AEE58271085E5BD7B691B8D6 /* NavApp */,
+				EE1B0B86D3695426AEE98D26 /* NavAppTests */,
+				850B6755BBD55CD0AB1E1E6C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		850B6755BBD55CD0AB1E1E6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9A2565E00935D078155895C /* NavApp.app */,
+				E42CD1C608EB5157A3AC31A5 /* NavAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AEE58271085E5BD7B691B8D6 /* NavApp */ = {
+			isa = PBXGroup;
+			children = (
+				1A96515FBC655ED2B4ACDC0D /* App */,
+				861A2A49F66756A09F1D8D71 /* Models */,
+				7B22BCCC00525BB4BC72D100 /* Services */,
+				F8E21C6B0E085666825E615A /* Views */,
+			);
+			path = NavApp;
+			sourceTree = "<group>";
+		};
+		1A96515FBC655ED2B4ACDC0D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				50BD77B8B6DF550CAEB8D0D9 /* NavApp.swift */,
+				1E2DA06392C45FA3827B7730 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		861A2A49F66756A09F1D8D71 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4A3AB605180E54DFBD1CCE7D /* NavigationState.swift */,
+				63A8A1E4E3555E29A0B13B92 /* ManeuverType.swift */,
+				582FE1CF73A952D18087F831 /* GuidanceStep.swift */,
+				E1A727089B875FD699E2325A /* RouteModel.swift */,
+				219F3EDD2FA75BE489EFB500 /* LocationModel.swift */,
+				F42C2A807DE05E58BEBD4E69 /* SearchResult.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		7B22BCCC00525BB4BC72D100 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E9D90DBD36BF572EAE91785D /* Formatters.swift */,
+				E737FCFAEF9A5A089DB59344 /* LocationService.swift */,
+				BCCEFC9DA0D5510E96F933C7 /* RoutingService.swift */,
+				4FF6A2C871B55799894EC0D2 /* SearchService.swift */,
+				A8238A80C7E05DFE90934FA7 /* NavigationSessionManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F8E21C6B0E085666825E615A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0814C04FDB8B50FAB60CFE9E /* MapViewContainer.swift */,
+				35036A8CD7235484A31F0D57 /* TopGuidanceBannerView.swift */,
+				11CE3412A95F508F8694F890 /* BottomControlPanelView.swift */,
+				7EE3C22B0EBF587EA90D5C57 /* SearchSheetView.swift */,
+				BC7F6A38288E525AB430E689 /* DemoControlView.swift */,
+				A9721AE268AB5492BDAC9797 /* MainNavigationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EE1B0B86D3695426AEE98D26 /* NavAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				ADF2F739B320555E8813F2EA /* NavigationStateTests.swift */,
+				B751B20505C45877A1CA3DC0 /* FormattingTests.swift */,
+				CAB26E8500EE551DBE00D150 /* RouteModelTests.swift */,
+				9B9A9F7E90FE5F80B00594AC /* LocationModelTests.swift */,
+				6FA521F9DA7B5235B5D3C36C /* NavigationSessionManagerTests.swift */,
+			);
+			path = NavAppTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+/* Begin PBXNativeTarget section */
+		B0D6E03ACC9E520784264633 /* NavApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4A3A20873895615B9FA8807 /* Build configuration list for PBXNativeTarget "NavApp" */;
+			buildPhases = (
+				D2C8B08B0F46578F8CAC195B /* Sources */,
+				489B3F04986B584495885249 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NavApp;
+			productName = NavApp;
+			productReference = A9A2565E00935D078155895C /* NavApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D6D44D1A759E5DC69E1AE22B /* NavAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 375194F3D5A85FD5B3F589FC /* Build configuration list for PBXNativeTarget "NavAppTests" */;
+			buildPhases = (
+				7344882985565813B9A5E517 /* Sources */,
+				ACB3D0282915592D95518DC2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				834AC9B804FF5388A3DCBC85 /* PBXTargetDependency */,
+			);
+			name = NavAppTests;
+			productName = NavAppTests;
+			productReference = E42CD1C608EB5157A3AC31A5 /* NavAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+/* Begin PBXProject section */
+		7FD499BA2856516C8DC0A8E3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					B0D6E03ACC9E520784264633 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					D6D44D1A759E5DC69E1AE22B = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = B0D6E03ACC9E520784264633;
+					};
+				};
+			};
+			buildConfigurationList = EC49CBA40545574FB5F17F98 /* Build configuration list for PBXProject "NavApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 11F912EE750056D59CB9E342;
+			productRefGroup = 850B6755BBD55CD0AB1E1E6C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B0D6E03ACC9E520784264633 /* NavApp */,
+				D6D44D1A759E5DC69E1AE22B /* NavAppTests */,
+			);
+		};
+/* End PBXProject section */
+/* Begin PBXSourcesBuildPhase section */
+		D2C8B08B0F46578F8CAC195B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3E7AE0BB74B58218122B3E7 /* NavApp.swift in Sources */,
+				108B7360E4D05B979D304FA2 /* NavigationState.swift in Sources */,
+				075B8938B0F55222A99E3327 /* ManeuverType.swift in Sources */,
+				9F3C856FF8B65DB1A30526F6 /* GuidanceStep.swift in Sources */,
+				1595A90E7546532499EAD2F7 /* RouteModel.swift in Sources */,
+				A69CFA465FB052ABBC840D79 /* LocationModel.swift in Sources */,
+				4DCFF5E78DC954C38F6F0297 /* SearchResult.swift in Sources */,
+				717CE7A335A354708D578C4C /* Formatters.swift in Sources */,
+				E0E12272BCB75ACCB750927B /* LocationService.swift in Sources */,
+				B84FC7B9D27A52B19D7F46BC /* RoutingService.swift in Sources */,
+				CF56B5BA98E05E20A152A12D /* SearchService.swift in Sources */,
+				71EABB36A83350418B540957 /* NavigationSessionManager.swift in Sources */,
+				06E370F406AA51DE8CFC190A /* MapViewContainer.swift in Sources */,
+				6E930F8F0EA15B7DBE36204A /* TopGuidanceBannerView.swift in Sources */,
+				6BD4F62717A45752B1A78A28 /* BottomControlPanelView.swift in Sources */,
+				C9ADC9E195025DDE9BED0A03 /* SearchSheetView.swift in Sources */,
+				9BAAF8ACD1FC517F8A24366C /* DemoControlView.swift in Sources */,
+				7C7C071B725B55358FE2CBD4 /* MainNavigationView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7344882985565813B9A5E517 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8FADCCB729D510DA8F5FEFF /* NavigationStateTests.swift in Sources */,
+				C1DB611DAF455135A0DCA7AC /* FormattingTests.swift in Sources */,
+				8AF4E6D2E289514893BFCF1F /* RouteModelTests.swift in Sources */,
+				CFB3F1758CD756D086CF9BC6 /* LocationModelTests.swift in Sources */,
+				4A611781A00050919D3CCFAE /* NavigationSessionManagerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+/* Begin PBXTargetDependency section */
+		834AC9B804FF5388A3DCBC85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B0D6E03ACC9E520784264633 /* NavApp */;
+			targetProxy = 810CE15CA958524EAD5D736F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+/* Begin XCBuildConfiguration section */
+		AE4F542CFF1F5667AFB66874 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		997C10FB6F1958FEAC983BFB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DC17AB6D10415E95B9F5FAAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NavApp/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ysiduc.navapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A832083633A753709B2F4D5A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NavApp/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ysiduc.navapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		403AED10A3C7590B8027DDAD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ysiduc.navapp.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NavApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NavApp";
+			};
+			name = Debug;
+		};
+		3531F52DEBD0534AAC72412F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ysiduc.navapp.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NavApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NavApp";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+/* Begin XCConfigurationList section */
+		EC49CBA40545574FB5F17F98 /* Build configuration list for PBXProject "NavApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE4F542CFF1F5667AFB66874 /* Debug */,
+				997C10FB6F1958FEAC983BFB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4A3A20873895615B9FA8807 /* Build configuration list for PBXNativeTarget "NavApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC17AB6D10415E95B9F5FAAE /* Debug */,
+				A832083633A753709B2F4D5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		375194F3D5A85FD5B3F589FC /* Build configuration list for PBXNativeTarget "NavAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				403AED10A3C7590B8027DDAD /* Debug */,
+				3531F52DEBD0534AAC72412F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7FD499BA2856516C8DC0A8E3 /* Project object */;
+}

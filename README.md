@@ -45,20 +45,28 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`06_reverse_feasibility.md`](reports/06_reverse_feasibility.md)**: Recovery assessment matrix categorized into VERIFIED, PARTIALLY VERIFIED, INFERRED, and BLOCKED; identifies server-dependent boundaries, entitlement constraints, and copyright boundaries.
 - **[`07_consistency_audit.md`](reports/07_consistency_audit.md)**: Comprehensive audit report reconciling all historical discrepancies (file size, SHA-256, iOS minimum version, symbol table definitions) against original ground truth artifacts.
 - **[`08_targeted_core_analysis.md`](reports/08_targeted_core_analysis.md)**: Targeted ARM64 binary analysis and scoped decompilation verification of five non-trivial application routines (100% success rate, boundary validation, and Objective-C runtime selector reconciliation).
-- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: **[NEW - Phase 1.4.1]** Target analysis reproducibility fix and independent validation report; resolves 1,300 vs 1,540 byte boundary discrepancy (6 ranges, 5 gaps), independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
+- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: Target analysis reproducibility fix and independent validation report; resolves 1,300 vs 1,540 byte boundary discrepancy (6 ranges, 5 gaps), independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
+- **[`12_reconstruction_feasibility.md`](reports/12_reconstruction_feasibility.md)**: **[NEW - Phase 2]** Reconstruction feasibility audit categorizing navigation subsystems into IMPLEMENTABLE, PARTIAL, BLOCKED, and UNKNOWN based on clean-room reverse engineering evidence.
+- **[`13_functional_test_matrix.md`](reports/13_functional_test_matrix.md)**: **[NEW - Phase 2]** Detailed 12-feature functional test matrix comparing the independent `NavApp` prototype against the official Waze application baseline.
+- **[`14_build_verification.md`](reports/14_build_verification.md)**: **[NEW - Phase 2]** Continuous integration build verification report documenting GitHub Actions macOS runner pipeline, automated XCTest coverage, unsigned archive packaging, and manual iPhone test plans.
 
-### 2. Technical Evidence (`evidence/`)
+### 2. Independent Prototype Application (`ios-test-app/`)
+
+- **[`ios-test-app/`](ios-test-app/)**: Clean-room iOS navigation application built with Swift / SwiftUI, MapKit, and CoreLocation for iOS 16.0+. Includes multi-route preview, turn-by-turn guidance, destination search, velocity tracking, and automated unit test suite.
+- **[`tests/`](tests/)**: Automated XCTest suite index and test execution documentation.
+
+### 3. Technical Evidence (`evidence/`)
 
 - **[`function_inventory.md`](evidence/function_inventory.md)**: Formal register of audited functions, including virtual addresses, class bindings, cross-references, decompiled behavior summaries, and confidence levels.
 - **[`class_inventory.md`](evidence/class_inventory.md)**: Register of critical Objective-C classes, internal class hierarchies, protocols, and internal Google monorepo source path references (`//maps/mobile/waze/...`).
 - **[`analysis_statistics.md`](evidence/analysis_statistics.md)**: Quantitative static analysis metrics, section sizes, string distributions, symbol counts, and Ghidra headless processing benchmarks.
 - **[`tool_verification.md`](evidence/tool_verification.md)**: Tool environment verification records for REA 6.5.0 MCP server, Ghidra 12.1.2 headless analyzer, GNU Binutils, and OpenJDK 27 on Arch Linux.
 - **[`reproducibility_manifest.md`](evidence/reproducibility_manifest.md)**: Step-by-step reproducibility manifest containing exact commands, checksums, Python inspection scripts, and Ghidra headless automation parameters.
-- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: **[UPDATED - Phase 1.4.1]** Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
+- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
 
-### 3. Analysis Automation Scripts (`scripts/`)
+### 4. Analysis Automation Scripts (`scripts/`)
 
-- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: **[UPDATED - Phase 1.4.1]** Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
+- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
 
 
 ### 4. Architecture Diagrams (`diagrams/`)
