@@ -219,6 +219,8 @@ def main():
 				MARKETING_VERSION = 5.22.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.waze.recovery";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -247,6 +249,8 @@ def main():
 				MARKETING_VERSION = 5.22.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.waze.recovery";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

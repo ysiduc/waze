@@ -52,11 +52,7 @@
     NSMutableArray<NSValue *> *result = [NSMutableArray arrayWithCapacity:poly.size()];
     for (const auto& c : poly.coordinates()) {
         CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(c.latitude, c.longitude);
-#if TARGET_OS_IPHONE
-        [result addObject:[NSValue valueWithMKCoordinate:coord]];
-#else
         [result addObject:[NSValue valueWithBytes:&coord objCType:@encode(CLLocationCoordinate2D)]];
-#endif
     }
     return [result copy];
 }
@@ -70,11 +66,7 @@
 
     for (NSValue *val in coordinates) {
         CLLocationCoordinate2D coord;
-#if TARGET_OS_IPHONE
-        coord = [val MKCoordinateValue];
-#else
         [val getValue:&coord];
-#endif
         coords.emplace_back(coord.latitude, coord.longitude);
     }
 
@@ -91,11 +83,7 @@
 
     for (NSValue *val in coordinates) {
         CLLocationCoordinate2D coord;
-#if TARGET_OS_IPHONE
-        coord = [val MKCoordinateValue];
-#else
         [val getValue:&coord];
-#endif
         coords.emplace_back(coord.latitude, coord.longitude);
     }
 
