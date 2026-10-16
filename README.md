@@ -45,20 +45,24 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`06_reverse_feasibility.md`](reports/06_reverse_feasibility.md)**: Recovery assessment matrix categorized into VERIFIED, PARTIALLY VERIFIED, INFERRED, and BLOCKED; identifies server-dependent boundaries, entitlement constraints, and copyright boundaries.
 - **[`07_consistency_audit.md`](reports/07_consistency_audit.md)**: Comprehensive audit report reconciling all historical discrepancies (file size, SHA-256, iOS minimum version, symbol table definitions) against original ground truth artifacts.
 - **[`08_targeted_core_analysis.md`](reports/08_targeted_core_analysis.md)**: Targeted ARM64 binary analysis and scoped decompilation verification of five non-trivial application routines (100% success rate, boundary validation, and Objective-C runtime selector reconciliation).
-- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: **[NEW - Phase 1.4.1]** Target analysis reproducibility fix and independent validation report; resolves 1,300 vs 1,540 byte boundary discrepancy (6 ranges, 5 gaps), independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
+- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: Target analysis reproducibility fix and independent validation report; resolves boundary discrepancy, independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
+- **[`15_original_binary_repackaging.md`](reports/15_original_binary_repackaging.md)**: **[NEW - Original IPA Packaging]** Feasibility assessment of source reconstruction vs. original binary repackaging. Verifies bit-exact preservation of original 141.42 MB unencrypted ARM64 binary (`cryptid=0`, SHA-256: `0c40c247...`), audits non-transferable entitlements (CarPlay, App Attest, APNs), and validates a 109.37 MB repackaged test IPA.
 
-### 2. Technical Evidence (`evidence/`)
+### 2. Technical Evidence & Guides (`evidence/`, `docs/`)
 
 - **[`function_inventory.md`](evidence/function_inventory.md)**: Formal register of audited functions, including virtual addresses, class bindings, cross-references, decompiled behavior summaries, and confidence levels.
 - **[`class_inventory.md`](evidence/class_inventory.md)**: Register of critical Objective-C classes, internal class hierarchies, protocols, and internal Google monorepo source path references (`//maps/mobile/waze/...`).
 - **[`analysis_statistics.md`](evidence/analysis_statistics.md)**: Quantitative static analysis metrics, section sizes, string distributions, symbol counts, and Ghidra headless processing benchmarks.
 - **[`tool_verification.md`](evidence/tool_verification.md)**: Tool environment verification records for REA 6.5.0 MCP server, Ghidra 12.1.2 headless analyzer, GNU Binutils, and OpenJDK 27 on Arch Linux.
 - **[`reproducibility_manifest.md`](evidence/reproducibility_manifest.md)**: Step-by-step reproducibility manifest containing exact commands, checksums, Python inspection scripts, and Ghidra headless automation parameters.
-- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: **[UPDATED - Phase 1.4.1]** Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
+- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
+- **[`docs/signing_and_sideloading_guide.md`](docs/signing_and_sideloading_guide.md)**: **[NEW]** Technical instructions for developer-managed re-signing and local physical hardware testing (Sideloadly automated workflow and manual macOS `codesign` CLI process).
 
-### 3. Analysis Automation Scripts (`scripts/`)
+### 3. Packaging & Analysis Automation Scripts (`scripts/`, `.github/`)
 
-- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: **[UPDATED - Phase 1.4.1]** Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
+- **[`repackage_and_validate.py`](scripts/repackage_and_validate.py)**: **[NEW]** Non-destructive read-only repackaging and structural verification tool. Audits Mach-O binaries, frameworks, and extensions; checks unencrypted status (`cryptid=0`); parses entitlements; and produces a structurally valid IPA archive without modifying instructions or injecting code.
+- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
+- **[`.github/workflows/validate-repackaging.yml`](.github/workflows/validate-repackaging.yml)**: **[NEW]** GitHub Actions CI pipeline executing syntax verification, synthetic structure compliance testing, and validation artifact report generation via `workflow_dispatch`.
 
 
 ### 4. Architecture Diagrams (`diagrams/`)
