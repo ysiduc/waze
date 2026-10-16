@@ -64,10 +64,20 @@ jobs:
           echo "RUNNING SWIFT XCTEST UNIT TEST SUITE"
           echo "================================================================================"
           PLATFORM_DIR=$(xcrun --show-sdk-platform-path --sdk macosx)
+          XCTEST_FRAMEWORK_DIR=$(find "$PLATFORM_DIR" -name "XCTest.framework" -exec dirname {} \; | head -n 1)
+          XCTEST_SWIFT_LIB=$(find "$PLATFORM_DIR" -name "XCTest.swiftmodule" -exec dirname {} \; | head -n 1)
+          echo "XCTest Framework Directory: $XCTEST_FRAMEWORK_DIR"
+          echo "XCTest Swift Module Directory: $XCTEST_SWIFT_LIB"
           mkdir -p build_output
           xcrun --sdk macosx swiftc \
-            -F "$PLATFORM_DIR/Developer/Library/Frameworks" \
-            -Xlinker -rpath -Xlinker "$PLATFORM_DIR/Developer/Library/Frameworks" \
+            -F "$XCTEST_FRAMEWORK_DIR" \
+            -I "$XCTEST_SWIFT_LIB" \
+            -L "$XCTEST_SWIFT_LIB" \
+            -I "$PLATFORM_DIR/Developer/usr/lib" \
+            -L "$PLATFORM_DIR/Developer/usr/lib" \
+            -Xlinker -rpath -Xlinker "$XCTEST_FRAMEWORK_DIR" \
+            -Xlinker -rpath -Xlinker "$XCTEST_SWIFT_LIB" \
+            -Xlinker -rpath -Xlinker "$PLATFORM_DIR/Developer/usr/lib" \
             -framework Foundation -framework XCTest -framework CoreLocation -framework Security \
             WazeRecovery/Sources/Core/Types.swift \
             WazeRecovery/Sources/Models/RouteModels.swift \
