@@ -228,6 +228,22 @@ $ g++ -std=c++17 -Wall -Wextra \
 All Routing Engine unit tests PASSED successfully.
 ```
 
+### 7.2 GitHub Actions CI Verification (Run 38948956452)
+- **Workflow Run:** [Run 38948956452](https://github.com/ysiduc/waze/actions/runs/38948956452)
+- **Host Runner:** GitHub `macos-14` (Apple Silicon M1/M2)
+- **Toolchain:** Xcode 15.4 (Build 15F31d), iOS SDK 17.5 (`iPhoneOS17.5.sdk`), Swift 5.10, Apple Clang 15.0.0
+- **Duration:** 54s
+- **Outcome:** **SUCCESS (0 errors, 0 warnings)**
+- **Newly Compiled Executable:** `WazeRecovery.app/WazeRecovery`
+  - SHA-256: `89b85955fca8f2ea1466eeb00abe404e8b15a2414a2f5482000d387611fc684d`
+  - Original Mach-O SHA-256: `0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80`
+  - Verification: **CONFIRMED 100% INDEPENDENT CLEAN RECONSTRUCTION**
+- **Packaged Unsigned IPA:** `WazeRecovery-unsigned.ipa`
+  - Size: 215,862 bytes (~212 KB)
+  - SHA-256: `3b266a9b1e083032bc8ebe6dbbc1d721b383d6617a19c14d08c6a99f40039ac9`
+  - Artifact Download URL: [Download WazeRecovery-unsigned-ipa (ID 12067713640)](https://github.com/ysiduc/waze/actions/runs/38948956452/artifacts/12067713640)
+  - Build Logs URL: [Download xcodebuild-logs (ID 12066818703)](https://github.com/ysiduc/waze/actions/runs/38948956452/artifacts/12066818703)
+
 ---
 
 ## 8. Physical Device Status Matrix
