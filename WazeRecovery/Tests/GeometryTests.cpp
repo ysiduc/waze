@@ -86,6 +86,40 @@ void testClosestPointOnPolyline() {
     std::cout << "[PASS] Polyline Closest Point" << std::endl;
 }
 
+void testBoundingBox() {
+    BoundingBox box(37.0, -123.0, 38.0, -122.0);
+    Coordinate inside(37.5, -122.5);
+    Coordinate outside(36.9, -122.5);
+
+    assert(box.contains(inside));
+    assert(!box.contains(outside));
+
+    BoundingBox overlapping(37.5, -122.5, 38.5, -121.5);
+    assert(box.intersects(overlapping));
+
+    box.expandToInclude(outside);
+    assert(box.contains(outside));
+
+    std::cout << "[PASS] Bounding Box Intersection & Containment" << std::endl;
+}
+
+void testMercatorTileConversion() {
+    // San Francisco coordinate at zoom 15
+    Coordinate sf(37.7749, -122.4194);
+    TileCoordinate tile = latLonToTile(sf, 15);
+
+    assert(tile.zoom == 15);
+    assert(tile.x > 0 && tile.x < (1 << 15));
+    assert(tile.y > 0 && tile.y < (1 << 15));
+
+    Coordinate nw = tileToLatLon(tile.x, tile.y, 15);
+    assert(nw.isValid());
+    BoundingBox bounds = tileBounds(tile.x, tile.y, 15);
+    assert(bounds.contains(sf));
+
+    std::cout << "[PASS] Spherical Mercator Tile Conversion (Z15: X=" << tile.x << ", Y=" << tile.y << ")" << std::endl;
+}
+
 int main() {
     std::cout << "--- Running Geometry & Polyline C++ Unit Tests ---" << std::endl;
     testCoordinateValidation();
@@ -93,6 +127,9 @@ int main() {
     testBearingCalculation();
     testPolylineEncodeDecode();
     testClosestPointOnPolyline();
-    std::cout << "All 5 Geometry unit tests PASSED successfully." << std::endl;
+    testBoundingBox();
+    testMercatorTileConversion();
+    std::cout << "All 7 Geometry unit tests PASSED successfully." << std::endl;
     return 0;
 }
+

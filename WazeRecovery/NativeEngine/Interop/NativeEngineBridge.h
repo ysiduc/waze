@@ -41,6 +41,21 @@ typedef NS_ENUM(NSInteger, WZNativeNavState) {
 
 @end
 
+@interface WZNativeTile : NSObject
+@property (nonatomic, assign) NSInteger x;
+@property (nonatomic, assign) NSInteger y;
+@property (nonatomic, assign) NSInteger zoom;
+@end
+
+@interface WZNativeStep : NSObject
+@property (nonatomic, assign) WZNativeManeuver maneuver;
+@property (nonatomic, copy) NSString *instruction;
+@property (nonatomic, copy) NSString *streetName;
+@property (nonatomic, assign) double distanceMeters;
+@property (nonatomic, assign) double durationSeconds;
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@end
+
 @interface WZNativeEngineBridge : NSObject
 
 + (instancetype)sharedBridge;
@@ -50,6 +65,13 @@ typedef NS_ENUM(NSInteger, WZNativeNavState) {
 + (double)bearingFrom:(CLLocationCoordinate2D)from to:(CLLocationCoordinate2D)to;
 + (NSArray<NSValue *> *)decodePolyline:(NSString *)encodedString;
 + (NSString *)encodePolyline:(NSArray<NSValue *> *)coordinates;
+
+// Web Mercator Tile Indexing
++ (WZNativeTile *)tileForCoordinate:(CLLocationCoordinate2D)coord zoom:(NSInteger)zoom;
++ (CLLocationCoordinate2D)coordinateForTileX:(NSInteger)x y:(NSInteger)y zoom:(NSInteger)zoom;
+
+// Dynamic Maneuver Step Generation from Polyline
++ (NSArray<WZNativeStep *> *)generateManeuversForPolyline:(NSArray<NSValue *> *)coordinates;
 
 // Routing Session Management
 - (void)startNavigationWithPolyline:(NSArray<NSValue *> *)coordinates

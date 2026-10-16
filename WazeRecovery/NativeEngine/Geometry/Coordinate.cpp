@@ -97,5 +97,35 @@ double alongTrackDistanceMeters(const Coordinate& point, const Coordinate& lineS
     return alongTrackRad * kEarthRadiusMeters;
 }
 
+TileCoordinate latLonToTile(const Coordinate& coord, int zoom) {
+    int n = 1 << zoom;
+    int tileX = static_cast<int>(std::floor((coord.longitude + 180.0) / 360.0 * n));
+    double latRad = degreesToRadians(coord.latitude);
+    int tileY = static_cast<int>(std::floor((1.0 - std::asinh(std::tan(latRad)) / kPi) / 2.0 * n));
+
+    // Clamp to valid range [0, 2^zoom - 1]
+    tileX = std::max(0, std::min(n - 1, tileX));
+    tileY = std::max(0, std::min(n - 1, tileY));
+
+    return TileCoordinate(tileX, tileY, zoom);
+}
+
+Coordinate tileToLatLon(int x, int y, int zoom) {
+    double n = static_cast<double>(1 << zoom);
+    double lonDeg = x / n * 360.0 - 180.0;
+    double latRad = std::atan(std::sinh(kPi * (1.0 - 2.0 * y / n)));
+    double latDeg = radiansToDegrees(latRad);
+
+    return Coordinate(latDeg, lonDeg);
+}
+
+BoundingBox tileBounds(int x, int y, int zoom) {
+    Coordinate nw = tileToLatLon(x, y, zoom);
+    Coordinate se = tileToLatLon(x + 1, y + 1, zoom);
+
+    return BoundingBox(se.latitude, nw.longitude, nw.latitude, se.longitude);
+}
+
 } // namespace Geometry
 } // namespace Waze
+

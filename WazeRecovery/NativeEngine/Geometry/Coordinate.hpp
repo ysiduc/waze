@@ -62,6 +62,70 @@ double crossTrackDistanceMeters(const Coordinate& point, const Coordinate& lineS
  */
 double alongTrackDistanceMeters(const Coordinate& point, const Coordinate& lineStart, const Coordinate& lineEnd);
 
+/**
+ * Represents an axis-aligned geographic bounding box.
+ */
+struct BoundingBox {
+    double minLatitude;
+    double minLongitude;
+    double maxLatitude;
+    double maxLongitude;
+
+    BoundingBox()
+        : minLatitude(0.0), minLongitude(0.0), maxLatitude(0.0), maxLongitude(0.0) {}
+    BoundingBox(double minLat, double minLon, double maxLat, double maxLon)
+        : minLatitude(minLat), minLongitude(minLon), maxLatitude(maxLat), maxLongitude(maxLon) {}
+
+    bool contains(const Coordinate& c) const {
+        return c.latitude >= minLatitude && c.latitude <= maxLatitude &&
+               c.longitude >= minLongitude && c.longitude <= maxLongitude;
+    }
+
+    bool intersects(const BoundingBox& other) const {
+        return !(minLatitude > other.maxLatitude || maxLatitude < other.minLatitude ||
+                 minLongitude > other.maxLongitude || maxLongitude < other.minLongitude);
+    }
+
+    void expandToInclude(const Coordinate& c) {
+        if (c.latitude < minLatitude) minLatitude = c.latitude;
+        if (c.latitude > maxLatitude) maxLatitude = c.latitude;
+        if (c.longitude < minLongitude) minLongitude = c.longitude;
+        if (c.longitude > maxLongitude) maxLongitude = c.longitude;
+    }
+};
+
+/**
+ * Represents an OSM/Google Spherical Mercator tile coordinate at a given zoom level.
+ * Reconstructed from MercatorTile / TileRenderer routines in Waze ARM64 executable.
+ */
+struct TileCoordinate {
+    int x;
+    int y;
+    int zoom;
+
+    TileCoordinate() : x(0), y(0), zoom(0) {}
+    TileCoordinate(int tileX, int tileY, int z) : x(tileX), y(tileY), zoom(z) {}
+
+    bool operator==(const TileCoordinate& o) const {
+        return x == o.x && y == o.y && zoom == o.zoom;
+    }
+};
+
+/**
+ * Converts a WGS84 coordinate to Mercator Tile (X, Y) at specified zoom level.
+ */
+TileCoordinate latLonToTile(const Coordinate& coord, int zoom);
+
+/**
+ * Converts Mercator Tile (X, Y, zoom) to NW WGS84 corner coordinate.
+ */
+Coordinate tileToLatLon(int x, int y, int zoom);
+
+/**
+ * Calculates geographical BoundingBox covering a Mercator Tile.
+ */
+BoundingBox tileBounds(int x, int y, int zoom);
+
 } // namespace Geometry
 } // namespace Waze
 

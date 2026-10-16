@@ -110,6 +110,12 @@ public:
     void setOffRouteThresholdMeters(double threshold) { offRouteThresholdMeters_ = threshold; }
     void setArrivalThresholdMeters(double threshold) { arrivalThresholdMeters_ = threshold; }
 
+    /**
+     * Generates realistic turn maneuver steps from an arbitrary polyline
+     * based on segment bearing changes and segment lengths.
+     */
+    static std::vector<ManeuverStep> generateStepsFromPolyline(const Geometry::Polyline& polyline);
+
     const Route& currentRoute() const { return currentRoute_; }
     NavigationState currentState() const { return progress_.state; }
 

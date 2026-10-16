@@ -6,6 +6,12 @@
 @implementation WZNativeProgress
 @end
 
+@implementation WZNativeTile
+@end
+
+@implementation WZNativeStep
+@end
+
 @interface WZNativeEngineBridge () {
     std::unique_ptr<Waze::Routing::RoutingEngine> _routingEngine;
 }
@@ -75,6 +81,50 @@
     return [NSString stringWithUTF8String:encoded.c_str()];
 }
 
++ (WZNativeTile *)tileForCoordinate:(CLLocationCoordinate2D)coord zoom:(NSInteger)zoom {
+    Waze::Geometry::Coordinate c(coord.latitude, coord.longitude);
+    Waze::Geometry::TileCoordinate tc = Waze::Geometry::latLonToTile(c, static_cast<int>(zoom));
+
+    WZNativeTile *tile = [[WZNativeTile alloc] init];
+    tile.x = tc.x;
+    tile.y = tc.y;
+    tile.zoom = tc.zoom;
+    return tile;
+}
+
++ (CLLocationCoordinate2D)coordinateForTileX:(NSInteger)x y:(NSInteger)y zoom:(NSInteger)zoom {
+    Waze::Geometry::Coordinate c = Waze::Geometry::tileToLatLon(static_cast<int>(x), static_cast<int>(y), static_cast<int>(zoom));
+    return CLLocationCoordinate2DMake(c.latitude, c.longitude);
+}
+
++ (NSArray<WZNativeStep *> *)generateManeuversForPolyline:(NSArray<NSValue *> *)coordinates {
+    if (!coordinates || [coordinates count] < 2) {
+        return @[];
+    }
+    std::vector<Waze::Geometry::Coordinate> coords;
+    coords.reserve([coordinates count]);
+    for (NSValue *val in coordinates) {
+        CLLocationCoordinate2D coord;
+        [val getValue:&coord];
+        coords.emplace_back(coord.latitude, coord.longitude);
+    }
+    Waze::Geometry::Polyline poly(coords);
+    auto steps = Waze::Routing::RoutingEngine::generateStepsFromPolyline(poly);
+
+    NSMutableArray<WZNativeStep *> *result = [NSMutableArray arrayWithCapacity:steps.size()];
+    for (const auto& s : steps) {
+        WZNativeStep *step = [[WZNativeStep alloc] init];
+        step.maneuver = static_cast<WZNativeManeuver>(s.maneuver);
+        step.instruction = [NSString stringWithUTF8String:s.instruction.c_str()];
+        step.streetName = [NSString stringWithUTF8String:s.streetName.c_str()];
+        step.distanceMeters = s.distanceMeters;
+        step.durationSeconds = s.durationSeconds;
+        step.coordinate = CLLocationCoordinate2DMake(s.coordinate.latitude, s.coordinate.longitude);
+        [result addObject:step];
+    }
+    return [result copy];
+}
+
 - (void)startNavigationWithPolyline:(NSArray<NSValue *> *)coordinates
                        totalDistance:(double)totalDistanceMeters
                        totalDuration:(double)totalDurationSeconds {
@@ -93,27 +143,7 @@
     route.totalDistanceMeters = totalDistanceMeters;
     route.totalDurationSeconds = totalDurationSeconds;
     route.geometry = Waze::Geometry::Polyline(coords);
-
-    // Generate basic initial maneuver steps
-    if (coords.size() >= 2) {
-        Waze::Routing::ManeuverStep step1;
-        step1.maneuver = Waze::Routing::Maneuver::Depart;
-        step1.instruction = "Head towards destination";
-        step1.streetName = "Main St";
-        step1.distanceMeters = totalDistanceMeters * 0.4;
-        step1.durationSeconds = totalDurationSeconds * 0.4;
-        step1.coordinate = coords[coords.size() / 2];
-        route.steps.push_back(step1);
-
-        Waze::Routing::ManeuverStep step2;
-        step2.maneuver = Waze::Routing::Maneuver::Arrive;
-        step2.instruction = "Arrive at destination";
-        step2.streetName = "Destination St";
-        step2.distanceMeters = totalDistanceMeters * 0.6;
-        step2.durationSeconds = totalDurationSeconds * 0.6;
-        step2.coordinate = coords.back();
-        route.steps.push_back(step2);
-    }
+    route.steps = Waze::Routing::RoutingEngine::generateStepsFromPolyline(route.geometry);
 
     _routingEngine->setRoute(route);
 }

@@ -109,5 +109,95 @@ NavigationProgress RoutingEngine::updateLocation(const Geometry::Coordinate& loc
     return progress_;
 }
 
+std::vector<ManeuverStep> RoutingEngine::generateStepsFromPolyline(const Geometry::Polyline& polyline) {
+    std::vector<ManeuverStep> steps;
+    const auto& coords = polyline.coordinates();
+    if (coords.size() < 2) {
+        return steps;
+    }
+
+    // First step: Depart
+    ManeuverStep departStep;
+    departStep.maneuver = Maneuver::Depart;
+    departStep.streetName = "Route Start";
+    departStep.instruction = "Head towards destination";
+    departStep.coordinate = coords[0];
+    departStep.distanceMeters = 0.0;
+    departStep.durationSeconds = 0.0;
+    steps.push_back(departStep);
+
+    double currentStepDist = 0.0;
+
+    for (size_t i = 1; i + 1 < coords.size(); ++i) {
+        double segDist = Geometry::haversineDistanceMeters(coords[i - 1], coords[i]);
+        currentStepDist += segDist;
+
+        double bearingIn = Geometry::calculateInitialBearing(coords[i - 1], coords[i]);
+        double bearingOut = Geometry::calculateInitialBearing(coords[i], coords[i + 1]);
+
+        double delta = bearingOut - bearingIn;
+        while (delta > 180.0) delta -= 360.0;
+        while (delta < -180.0) delta += 360.0;
+
+        Maneuver m = Maneuver::Continue;
+        std::string inst = "Continue straight";
+
+        if (delta > 150.0 || delta < -150.0) {
+            m = Maneuver::UTurn;
+            inst = "Make a U-turn";
+        } else if (delta > 105.0) {
+            m = Maneuver::SharpRight;
+            inst = "Make a sharp right turn";
+        } else if (delta > 35.0) {
+            m = Maneuver::TurnRight;
+            inst = "Turn right";
+        } else if (delta > 15.0) {
+            m = Maneuver::SlightRight;
+            inst = "Keep slightly right";
+        } else if (delta < -105.0) {
+            m = Maneuver::SharpLeft;
+            inst = "Make a sharp left turn";
+        } else if (delta < -35.0) {
+            m = Maneuver::TurnLeft;
+            inst = "Turn left";
+        } else if (delta < -15.0) {
+            m = Maneuver::SlightLeft;
+            inst = "Keep slightly left";
+        }
+
+        if (m != Maneuver::Continue && currentStepDist > 30.0) {
+            steps.back().distanceMeters = currentStepDist;
+            steps.back().durationSeconds = currentStepDist / 13.88; // ~50 km/h
+
+            ManeuverStep turnStep;
+            turnStep.maneuver = m;
+            turnStep.instruction = inst;
+            turnStep.streetName = "Turn";
+            turnStep.coordinate = coords[i];
+            steps.push_back(turnStep);
+            currentStepDist = 0.0;
+        }
+    }
+
+    // Final segment distance to destination
+    double lastSegDist = Geometry::haversineDistanceMeters(coords[coords.size() - 2], coords.back());
+    currentStepDist += lastSegDist;
+    steps.back().distanceMeters = currentStepDist;
+    steps.back().durationSeconds = currentStepDist / 13.88;
+
+    // Final step: Arrive
+    ManeuverStep arriveStep;
+    arriveStep.maneuver = Maneuver::Arrive;
+    arriveStep.instruction = "You have arrived at your destination";
+    arriveStep.streetName = "Destination";
+    arriveStep.coordinate = coords.back();
+    arriveStep.distanceMeters = 0.0;
+    arriveStep.durationSeconds = 0.0;
+    steps.push_back(arriveStep);
+
+    return steps;
+}
+
 } // namespace Routing
 } // namespace Waze
+

@@ -22,10 +22,12 @@
 		BBE3CBF482223395D6D4F963 /* ServiceRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8D8ECCC615CA63C19C648B /* ServiceRegistry.swift */; };
 		2FCCE06184E7BDF78C2670DB /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DD534055CFFF824A59FEA0F /* Types.swift */; };
 		378FEE25BF8B48DF552EFFD4 /* WZWazeLocationServiceBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB76A181B0F38527E9AED93 /* WZWazeLocationServiceBridge.swift */; };
+		115D0CF1771DC48050B11B24 /* HazardModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A20CAC1D8C645BAD2731E6 /* HazardModels.swift */; };
 		7D95890A3E0D4F170D5F074B /* LocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403F324E870FE67716F0CB50 /* LocationModel.swift */; };
 		553CF47E075FA834FE4690F9 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AEE5A22C7B6AB58711D36 /* NavigationState.swift */; };
 		E48698685C2C48BA6B4CB689 /* RouteModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF0B1AF1D33AA17E39179A0 /* RouteModels.swift */; };
 		4E7C5CE0D0839A05382112D5 /* SearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71633FF131E14E2D2C55F779 /* SearchModels.swift */; };
+		39F9281A9F269E741D83DDE3 /* AlertReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880425ADFDA2C9FDD288D154 /* AlertReportingService.swift */; };
 		E62F77685FA4BD64E7104243 /* ManeuverType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057DB26268F395C91F822722 /* ManeuverType.swift */; };
 		383423522C21667365F6B192 /* NavigationGuidanceReducerBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E59B8AE79C7D486B03A9357 /* NavigationGuidanceReducerBridge.swift */; };
 		7FA7CED38308035F649D0FEE /* LocalSimulatedRoutingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE76159D57F094A12BFA4771 /* LocalSimulatedRoutingService.swift */; };
@@ -61,10 +63,12 @@
 		3C8D8ECCC615CA63C19C648B /* ServiceRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Core/ServiceRegistry.swift"; sourceTree = "<group>"; };
 		0DD534055CFFF824A59FEA0F /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Core/Types.swift"; sourceTree = "<group>"; };
 		7CB76A181B0F38527E9AED93 /* WZWazeLocationServiceBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Location/WZWazeLocationServiceBridge.swift"; sourceTree = "<group>"; };
+		D2A20CAC1D8C645BAD2731E6 /* HazardModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/HazardModels.swift"; sourceTree = "<group>"; };
 		403F324E870FE67716F0CB50 /* LocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/LocationModel.swift"; sourceTree = "<group>"; };
 		3A8AEE5A22C7B6AB58711D36 /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/NavigationState.swift"; sourceTree = "<group>"; };
 		FCF0B1AF1D33AA17E39179A0 /* RouteModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/RouteModels.swift"; sourceTree = "<group>"; };
 		71633FF131E14E2D2C55F779 /* SearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Models/SearchModels.swift"; sourceTree = "<group>"; };
+		880425ADFDA2C9FDD288D154 /* AlertReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Navigation/AlertReportingService.swift"; sourceTree = "<group>"; };
 		057DB26268F395C91F822722 /* ManeuverType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Navigation/ManeuverType.swift"; sourceTree = "<group>"; };
 		8E59B8AE79C7D486B03A9357 /* NavigationGuidanceReducerBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Navigation/NavigationGuidanceReducerBridge.swift"; sourceTree = "<group>"; };
 		CE76159D57F094A12BFA4771 /* LocalSimulatedRoutingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/Networking/LocalSimulatedRoutingService.swift"; sourceTree = "<group>"; };
@@ -121,10 +125,12 @@
 				3C8D8ECCC615CA63C19C648B /* ServiceRegistry.swift */,
 				0DD534055CFFF824A59FEA0F /* Types.swift */,
 				7CB76A181B0F38527E9AED93 /* WZWazeLocationServiceBridge.swift */,
+				D2A20CAC1D8C645BAD2731E6 /* HazardModels.swift */,
 				403F324E870FE67716F0CB50 /* LocationModel.swift */,
 				3A8AEE5A22C7B6AB58711D36 /* NavigationState.swift */,
 				FCF0B1AF1D33AA17E39179A0 /* RouteModels.swift */,
 				71633FF131E14E2D2C55F779 /* SearchModels.swift */,
+				880425ADFDA2C9FDD288D154 /* AlertReportingService.swift */,
 				057DB26268F395C91F822722 /* ManeuverType.swift */,
 				8E59B8AE79C7D486B03A9357 /* NavigationGuidanceReducerBridge.swift */,
 				CE76159D57F094A12BFA4771 /* LocalSimulatedRoutingService.swift */,
@@ -235,10 +241,12 @@
 				BBE3CBF482223395D6D4F963 /* ServiceRegistry.swift in Sources */,
 				2FCCE06184E7BDF78C2670DB /* Types.swift in Sources */,
 				378FEE25BF8B48DF552EFFD4 /* WZWazeLocationServiceBridge.swift in Sources */,
+				115D0CF1771DC48050B11B24 /* HazardModels.swift in Sources */,
 				7D95890A3E0D4F170D5F074B /* LocationModel.swift in Sources */,
 				553CF47E075FA834FE4690F9 /* NavigationState.swift in Sources */,
 				E48698685C2C48BA6B4CB689 /* RouteModels.swift in Sources */,
 				4E7C5CE0D0839A05382112D5 /* SearchModels.swift in Sources */,
+				39F9281A9F269E741D83DDE3 /* AlertReportingService.swift in Sources */,
 				E62F77685FA4BD64E7104243 /* ManeuverType.swift in Sources */,
 				383423522C21667365F6B192 /* NavigationGuidanceReducerBridge.swift in Sources */,
 				7FA7CED38308035F649D0FEE /* LocalSimulatedRoutingService.swift in Sources */,

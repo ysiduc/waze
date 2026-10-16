@@ -9,6 +9,7 @@ public final class SearchDrawerViewController: UIViewController, UITableViewDele
     public weak var delegate: SearchDrawerDelegate?
 
     private let searchBar = UISearchBar()
+    private let categorySegment = UISegmentedControl(items: ["All", "Gas", "Food", "Coffee", "Parking", "Saved"])
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private var results: [WZDestination] = []
 
@@ -25,6 +26,10 @@ public final class SearchDrawerViewController: UIViewController, UITableViewDele
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
 
+        categorySegment.selectedSegmentIndex = 0
+        categorySegment.translatesAutoresizingMaskIntoConstraints = false
+        categorySegment.addTarget(self, action: #selector(handleCategoryChange), for: .valueChanged)
+
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .clear
@@ -32,6 +37,7 @@ public final class SearchDrawerViewController: UIViewController, UITableViewDele
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(searchBar)
+        view.addSubview(categorySegment)
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
@@ -39,21 +45,56 @@ public final class SearchDrawerViewController: UIViewController, UITableViewDele
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
 
-            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 8),
+            categorySegment.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 4),
+            categorySegment.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            categorySegment.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            categorySegment.heightAnchor.constraint(equalToConstant: 32),
+
+            tableView.topAnchor.constraint(equalTo: categorySegment.bottomAnchor, constant: 8),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
+    private var selectedCategory: WZSearchCategory {
+        switch categorySegment.selectedSegmentIndex {
+        case 1: return .gas
+        case 2: return .food
+        case 3: return .coffee
+        case 4: return .parking
+        case 5: return .favorites
+        default: return .all
+        }
+    }
+
+    private var currentUserCoord: WZCoordinate? {
+        if let telem = WZWazeLocationServiceBridge.shared.lastKnownTelemetry {
+            return WZCoordinate(latitude: telem.latitude, longitude: telem.longitude)
+        }
+        return WZCoordinate(latitude: 37.7749, longitude: -122.4194)
+    }
+
     private func loadInitialDestinations() {
-        results = SearchEngine.shared.search(query: "")
+        results = SearchEngine.shared.search(
+            query: searchBar.text ?? "",
+            category: selectedCategory,
+            near: currentUserCoord
+        )
         tableView.reloadData()
+    }
+
+    @objc private func handleCategoryChange() {
+        loadInitialDestinations()
     }
 
     // MARK: - UISearchBarDelegate
     public func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        results = SearchEngine.shared.search(query: searchText)
+        results = SearchEngine.shared.search(
+            query: searchText,
+            category: selectedCategory,
+            near: currentUserCoord
+        )
         tableView.reloadData()
     }
 
