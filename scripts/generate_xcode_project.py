@@ -60,9 +60,13 @@ def main():
         elif s.endswith('.metal'):
             ftype = "sourcecode.metal"
         pbx_file_refs.append(f'\t\t{file_id} /* {fname} */ = {{isa = PBXFileReference; lastKnownFileType = {ftype}; path = "{s}"; sourceTree = "<group>"; }};')
+        group_children.append(f'\t\t\t\t{file_id} /* {fname} */,')
+
+        if fname == "Package.swift":
+            continue
+
         pbx_build_files.append(f'\t\t{build_id} /* {fname} in Sources */ = {{isa = PBXBuildFile; fileRef = {file_id} /* {fname} */; }};')
         pbx_sources_build_phase.append(f'\t\t\t\t{build_id} /* {fname} in Sources */,')
-        group_children.append(f'\t\t\t\t{file_id} /* {fname} */,')
 
     for h in header_files:
         file_id = make_id("FILE_" + h)

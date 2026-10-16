@@ -17,7 +17,6 @@
 		CA2BA7FBE7E2E75487A1D5AD /* CanvasRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32EA9E2F00271EE58A78376D /* CanvasRenderer.cpp */; };
 		751E60F228BFE6FD1EF113A1 /* CanvasRenderer.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5F4EFEC355CE7DD571B60F04 /* CanvasRenderer.metal */; };
 		235DAE1CE7BB517F01348205 /* RoutingEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 084E9862F24C30FB391D2892 /* RoutingEngine.cpp */; };
-		23D518F5BCD99D383463458C /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAEFE3EC9E658DF09646282E /* Package.swift */; };
 		43EB865224AF1D3F7A2E6D36 /* WZCarPlayMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D8DE0E7054874A05899B8 /* WZCarPlayMapController.swift */; };
 		B59E0BAFF2ABC9C5F261AFFE /* MainCanvasViewHolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C584AD46F08C70CA5217727C /* MainCanvasViewHolder.swift */; };
 		BBE3CBF482223395D6D4F963 /* ServiceRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8D8ECCC615CA63C19C648B /* ServiceRegistry.swift */; };
@@ -231,7 +230,6 @@
 				CA2BA7FBE7E2E75487A1D5AD /* CanvasRenderer.cpp in Sources */,
 				751E60F228BFE6FD1EF113A1 /* CanvasRenderer.metal in Sources */,
 				235DAE1CE7BB517F01348205 /* RoutingEngine.cpp in Sources */,
-				23D518F5BCD99D383463458C /* Package.swift in Sources */,
 				43EB865224AF1D3F7A2E6D36 /* WZCarPlayMapController.swift in Sources */,
 				B59E0BAFF2ABC9C5F261AFFE /* MainCanvasViewHolder.swift in Sources */,
 				BBE3CBF482223395D6D4F963 /* ServiceRegistry.swift in Sources */,
