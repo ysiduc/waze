@@ -83,3 +83,7 @@ tmp/
 *.bak
 *.swp
 *~
+
+# Local Decompiled Dumps (Retained locally, excluded from repository)
+evidence/decompiled/
+

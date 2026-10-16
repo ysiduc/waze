@@ -3,9 +3,10 @@
 [![Analysis Tools](https://img.shields.io/badge/Tools-REA_6.5.0_|_Ghidra_12.1.2-blue.svg)](#analysis-toolchain)
 [![Target](https://img.shields.io/badge/Target-Waze_iOS_v5.22.0_(ARM64)-orange.svg)](#target-overview)
 [![Scope](https://img.shields.io/badge/Scope-Documentation_&_Audit_Only-green.svg)](#research-scope--security-boundary)
-[![Audit Status](https://img.shields.io/badge/Audit-Phase_1.3_Completed-brightgreen.svg)](reports/07_consistency_audit.md)
+[![Audit Status](https://img.shields.io/badge/Audit-Phase_1.4_Completed-brightgreen.svg)](reports/08_targeted_core_analysis.md)
 
 This repository contains static analysis documentation, architectural models, evidence inventories, and tool verification records from an authorized, read-only reverse engineering audit of the Waze iOS application bundle (`waze.ipa`, v5.22.0).
+
 
 The objective of this research is to evaluate static analysis feasibility, verify REA (Reverse Engineer Anything) and Ghidra toolchains against modern iOS production binaries, and document clean-room architectural boundaries without redistributing proprietary assets or source code.
 
@@ -42,7 +43,8 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`04_main_binary_verification.md`](reports/04_main_binary_verification.md)**: In-depth technical verification of the 141.42 MB ARM64 main executable, Ghidra headless import metrics, sample decompilation validation, and procedure cross-references.
 - **[`05_architecture_analysis.md`](reports/05_architecture_analysis.md)**: Structural synthesis of core subsystems: application entry & lifecycle (`WazeApp`), map canvas rendering (`MainCanvasViewHolder` & Metal shaders), route state management (`AlternateRoutesStateMachineBridge`), navigation guidance (`NavigationGuidanceReducerBridge`), and location tracking (`WZWazeLocationServiceBridge`).
 - **[`06_reverse_feasibility.md`](reports/06_reverse_feasibility.md)**: Recovery assessment matrix categorized into VERIFIED, PARTIALLY VERIFIED, INFERRED, and BLOCKED; identifies server-dependent boundaries, entitlement constraints, and copyright boundaries.
-- **[`07_consistency_audit.md`](reports/07_consistency_audit.md)**: **[NEW - Phase 1.3]** Comprehensive audit report reconciling all historical discrepancies (file size, SHA-256, iOS minimum version, symbol table definitions) against original ground truth artifacts.
+- **[`07_consistency_audit.md`](reports/07_consistency_audit.md)**: Comprehensive audit report reconciling all historical discrepancies (file size, SHA-256, iOS minimum version, symbol table definitions) against original ground truth artifacts.
+- **[`08_targeted_core_analysis.md`](reports/08_targeted_core_analysis.md)**: **[NEW - Phase 1.4]** Targeted ARM64 binary analysis and scoped decompilation verification of five non-trivial application routines (100% success rate, 276 ms total execution time, boundary validation, and Objective-C runtime selector reconciliation).
 
 ### 2. Technical Evidence (`evidence/`)
 
@@ -50,9 +52,15 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`class_inventory.md`](evidence/class_inventory.md)**: Register of critical Objective-C classes, internal class hierarchies, protocols, and internal Google monorepo source path references (`//maps/mobile/waze/...`).
 - **[`analysis_statistics.md`](evidence/analysis_statistics.md)**: Quantitative static analysis metrics, section sizes, string distributions, symbol counts, and Ghidra headless processing benchmarks.
 - **[`tool_verification.md`](evidence/tool_verification.md)**: Tool environment verification records for REA 6.5.0 MCP server, Ghidra 12.1.2 headless analyzer, GNU Binutils, and OpenJDK 27 on Arch Linux.
-- **[`reproducibility_manifest.md`](evidence/reproducibility_manifest.md)**: **[NEW - Phase 1.3]** Step-by-step reproducibility manifest containing exact commands, checksums, Python inspection scripts, and Ghidra headless automation parameters.
+- **[`reproducibility_manifest.md`](evidence/reproducibility_manifest.md)**: Step-by-step reproducibility manifest containing exact commands, checksums, Python inspection scripts, and Ghidra headless automation parameters.
+- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: **[NEW - Phase 1.4]** Detailed empirical verification register of the 5 targeted routines, including basic block counts, direct/indirect call counts, decompilation timings, and method metadata.
 
-### 3. Architecture Diagrams (`diagrams/`)
+### 3. Analysis Automation Scripts (`scripts/`)
+
+- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: **[NEW - Phase 1.4]** Standalone Ghidra Headless Analyzer script performing scoped disassembly, CFG generation, call reference tracing, and decompilation across targeted application routines.
+
+
+### 4. Architecture Diagrams (`diagrams/`)
 
 - **[`architecture.md`](diagrams/architecture.md)**: Component diagrams (Mermaid format) depicting the high-level application architecture, map rendering pipeline, navigation data flow, and runtime lifecycle. Direct evidence is explicitly separated from inferred relationships.
 
