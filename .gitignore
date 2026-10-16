@@ -1,0 +1,85 @@
+# =====================================================================
+# Waze Research Documentation Repository .gitignore
+# STRICT EXCLUSION: Zero binaries, proprietary assets, or credentials
+# =====================================================================
+
+# Packaging and Application Archives
+*.ipa
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# iOS Application Bundles & Components
+Payload/
+*.app/
+*.appex/
+*.framework/
+*.bundle/
+*.dylib
+*.a
+
+# Executables & Mach-O Binaries
+Waze
+SpotifyiOS
+NotificationExtension
+WazeShareExtension
+*.o
+*.obj
+*.exe
+*.bin
+*.out
+*.so
+
+# Graphics, Shaders & Compiled Resources
+*.car
+*.metallib
+*.nib
+*.storyboardc
+
+# Analysis Project Databases & Cache
+ghidra_proj/
+*.gpr
+*.rep/
+*.idb
+*.i64
+*.nam
+*.til
+*.fscache*
+
+# Certificates, Profiles & Signing Keys
+*.mobileprovision
+*.cer
+*.cert
+*.crt
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+
+# Operating System & IDE Artifacts
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+__pycache__/
+*.py[cod]
+*$py.class
+.vscode/
+.idea/
+
+# Scratch & Temporary Files
+scratch/
+extracted/
+tmp/
+*.tmp
+*.log
+*.bak
+*.swp
+*~
