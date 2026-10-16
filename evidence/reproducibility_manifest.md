@@ -32,11 +32,11 @@ sha256sum waze.ipa
 
 # Verify byte-exact size
 stat -c "%s bytes" waze.ipa
-# Expected: 115221416 bytes (~109.88 MB)
+# Expected: 114712520 bytes (~109.40 MiB / 114.71 MB)
 
 # Verify archive integrity and entry count
 unzip -l waze.ipa | tail -n 1
-# Expected: 2436 files
+# Expected: 2435 files (2309 files, 126 directories)
 ```
 
 ### B. Main Executable Verification (`Payload/Waze.app/Waze`)
