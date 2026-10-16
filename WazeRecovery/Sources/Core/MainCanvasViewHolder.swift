@@ -17,7 +17,7 @@ public final class MainCanvasViewHolder: NSObject {
     public private(set) var zoomLevel: Double = 15.0
     public private(set) var bearingDegrees: Double = 0.0
 
-    private var activePolyline: [WZCoordinate] = []
+    public private(set) var activePolyline: [WZCoordinate] = []
 
     public init(initialCenter: WZCoordinate = WZCoordinate(latitude: 37.7749, longitude: -122.4194)) {
         self.cameraCenter = initialCenter
