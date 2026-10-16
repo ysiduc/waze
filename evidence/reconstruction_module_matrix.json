@@ -1,0 +1,310 @@
+{
+  "audit_version": "1.0.0",
+  "phase": "3.1",
+  "target_binary": {
+    "path": "Payload/Waze.app/Waze",
+    "size_bytes": 141425424,
+    "sha256": "0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80",
+    "ipa_archive_sha256": "78c54a3db510c7d2142baeb13dd773c2f7774a3e4d99fb9a4cc966941086a158",
+    "ipa_size_bytes": 114712520,
+    "minimum_ios": "16.0"
+  },
+  "subsystem_matrix": [
+    {
+      "id": "SUB-01",
+      "name": "Application Lifecycle & Bootstrap",
+      "original_evidence": [
+        "0x1001fb7f8 (entry point / UIApplicationMain)",
+        "WazeApp (principal class & UIApplicationDelegate)",
+        "AppLifecycleFeatureManager",
+        "AppCoordinator"
+      ],
+      "files": [
+        "WazeRecovery/App/AppDelegate.swift",
+        "WazeRecovery/App/SceneDelegate.swift",
+        "WazeRecovery/App/Lifecycle/AppLaunchCoordinator.swift",
+        "WazeRecovery/App/Configuration/AppConfiguration.swift"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Native UIApplicationDelegate & UIWindowSceneDelegate lifecycle, coordinator bootstrap, configuration initialization",
+      "missing_behavior": "AppCheck attestation provider, remote feature flags initialization, A/B experiment config loading",
+      "realness": "REAL_NATIVE",
+      "test_coverage": "MANUAL_BOOTSTRAP"
+    },
+    {
+      "id": "SUB-02",
+      "name": "Dependency Management",
+      "original_evidence": [
+        "0x100021b40 (SRLRegistry)",
+        "SRLRegistryIvars",
+        "ServiceRegistry"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Core/ServiceRegistry.swift"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Thread-safe service locator pattern matching Waze SRLRegistry behavior",
+      "missing_behavior": "Scope hierarchy (session-scoped vs singleton services)",
+      "realness": "REAL_NATIVE",
+      "test_coverage": "UNIT_TESTED"
+    },
+    {
+      "id": "SUB-03",
+      "name": "Main Map UI & Container",
+      "original_evidence": [
+        "0x107f1a4a0 (MainCanvasViewHolder)",
+        "MainScreenActiveLegacyReportButton...",
+        "MapOverlay",
+        "waze_WazeMainScreenImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Core/MainCanvasViewHolder.swift",
+        "WazeRecovery/Sources/UI/MainCanvas/MainCanvasContainerViewController.swift",
+        "WazeRecovery/Sources/UI/Overlays/SpeedometerView.swift",
+        "WazeRecovery/Sources/UI/Overlays/NavigationBannerView.swift"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Main canvas hosting hierarchy, zoom/recenter controls, speedometer overlay with warning states, navigation banner",
+      "missing_behavior": "Full reporting action sheet, lane guidance HUD, road shield icons, audio volume quick-toggle",
+      "realness": "REAL_NATIVE",
+      "test_coverage": "UI_INSPECTED"
+    },
+    {
+      "id": "SUB-04",
+      "name": "Map Rendering Architecture",
+      "original_evidence": [
+        "MetalViewController",
+        "MTKView / MTKViewDelegate",
+        "TileRenderer / TileRendererBase::ProcessTile",
+        "MercatorTile",
+        "default.metallib (67,042 bytes)"
+      ],
+      "files": [
+        "WazeRecovery/NativeEngine/Rendering/CanvasRenderer.hpp",
+        "WazeRecovery/NativeEngine/Rendering/CanvasRenderer.cpp",
+        "WazeRecovery/NativeEngine/Rendering/CanvasRenderer.metal"
+      ],
+      "classification": "APPROXIMATED",
+      "implemented_behavior": "Spherical Web Mercator camera projection, viewport to NDC transform, polyline quad tessellation into triangle vertices",
+      "missing_behavior": "Proprietary MercatorTile vector road decoding, multi-layer tile pipeline, label collision engine, terrain/landuse shading",
+      "realness": "SIMPLIFIED_MATH",
+      "test_coverage": "UNIT_TESTED"
+    },
+    {
+      "id": "SUB-05",
+      "name": "GPS & Location Tracking",
+      "original_evidence": [
+        "0x107f19690 (WZWazeLocationServiceBridge)",
+        "WSVLocationSpeed",
+        "LocationManager",
+        "LocationManagerDelegate",
+        "waze_WazeGpsIssue.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Location/WZWazeLocationServiceBridge.swift",
+        "WazeRecovery/Sources/Models/LocationModel.swift"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "CLLocationManager authorization request, location stream filtering, speed and heading updates, speed threshold calculation",
+      "missing_behavior": "C++ Kalman filter integration, dead-reckoning tunnel extrapolation, GPS drift correction against road network",
+      "realness": "REAL_NATIVE",
+      "test_coverage": "MOCKED_FIXTURES"
+    },
+    {
+      "id": "SUB-06",
+      "name": "Search & Destination",
+      "original_evidence": [
+        "WazeSearchCoordinator",
+        "WazeSearchBarState",
+        "SearchMateAction",
+        "SearchResultsBridge",
+        "waze_WazeSearchImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Search/SearchEngine.swift",
+        "WazeRecovery/Sources/Models/SearchModels.swift",
+        "WazeRecovery/Sources/UI/Search/SearchDrawerViewController.swift"
+      ],
+      "classification": "APPROXIMATED",
+      "implemented_behavior": "Bottom sheet search drawer, text filtering, recent searches list, home/work shortcuts",
+      "missing_behavior": "Google Places / Waze live geocoding API, category search over remote POI database, offline street index queries",
+      "realness": "LOCAL_MOCKED",
+      "test_coverage": "UI_INTERACTIVE"
+    },
+    {
+      "id": "SUB-07",
+      "name": "Routing & Route Alternatives",
+      "original_evidence": [
+        "0x107f17048 / 0x10001a718 (AlternateRoutesStateMachineBridge)",
+        "AlternateRoutesBaseCoordinator",
+        "RouteUpdate",
+        "waze_WazeAlternateRoutesImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Routing/AlternateRoutesStateMachineBridge.swift",
+        "WazeRecovery/Sources/Models/RouteModels.swift",
+        "WazeRecovery/Sources/UI/RoutePreview/RoutePreviewView.swift"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Alternative route selection state machine, primary/alternate candidate comparison, route preview drawer",
+      "missing_behavior": "Remote routing graph path calculation, toll cost computation, live traffic delay calculation",
+      "realness": "REAL_LOGIC",
+      "test_coverage": "UNIT_TESTED"
+    },
+    {
+      "id": "SUB-08",
+      "name": "Turn-by-Turn Guidance",
+      "original_evidence": [
+        "0x107f1ab08 (NavigationGuidanceReducerBridge)",
+        "NavigationGuidanceConfigProvider",
+        "ManeuverContentBuilder",
+        "DistanceToTurn",
+        "waze_WazeAudioImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Navigation/NavigationGuidanceReducerBridge.swift",
+        "WazeRecovery/Sources/Navigation/ManeuverType.swift",
+        "WazeRecovery/NativeEngine/Routing/RoutingEngine.hpp",
+        "WazeRecovery/NativeEngine/Routing/RoutingEngine.cpp"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Distance to next turn calculation, approaching turn threshold triggers, maneuver step progression",
+      "missing_behavior": "Audio voice prompt speech synthesizer / sound asset playback, lane guidance arrows, exit number badges",
+      "realness": "REAL_NATIVE",
+      "test_coverage": "UNIT_TESTED"
+    },
+    {
+      "id": "SUB-09",
+      "name": "Navigation State & Off-Route Engine",
+      "original_evidence": [
+        "NavigationStateController",
+        "ActiveSessionImpl",
+        "RerouteData",
+        "OffRouteArray"
+      ],
+      "files": [
+        "WazeRecovery/NativeEngine/Routing/RoutingEngine.cpp",
+        "WazeRecovery/Sources/Models/NavigationState.swift",
+        "WazeRecovery/NativeEngine/Interop/NativeEngineBridge.mm"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Polyline perpendicular snapping, cross-track error calculation, 35m off-route detection trigger, 25m arrival detection",
+      "missing_behavior": "Server-side reroute query dispatch, traffic incident recalculation during reroute",
+      "realness": "REAL_ALGORITHM",
+      "test_coverage": "UNIT_TESTED"
+    },
+    {
+      "id": "SUB-10",
+      "name": "Traffic & Hazard Reporting",
+      "original_evidence": [
+        "AlertReportButtonData",
+        "HazardAlert",
+        "TrafficJam",
+        "PoliceAlert",
+        "SpeedCamera",
+        "waze_WazeAlertReportUIImplementation.bundle"
+      ],
+      "files": [],
+      "classification": "MISSING",
+      "implemented_behavior": "None in initial Phase 3.0 commit",
+      "missing_behavior": "Hazard alert model, reporting action sheet, proximity alert radar, user thumbs-up / thumbs-down feedback",
+      "realness": "NOT_IMPLEMENTED",
+      "test_coverage": "NONE"
+    },
+    {
+      "id": "SUB-11",
+      "name": "Persistence & Local Storage",
+      "original_evidence": [
+        "KeychainAccount",
+        "KeychainDataToAuthSession",
+        "UserPreferences",
+        "securityd log error -34018"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Persistence/KeychainStorageService.swift",
+        "WazeRecovery/Sources/Persistence/UserPreferencesService.swift"
+      ],
+      "classification": "RECONSTRUCTED",
+      "implemented_behavior": "Dynamic Keychain storage using active app bundle ID without hardcoded access-group lock, guest session fallback, UserDefaults preferences",
+      "missing_behavior": "CoreData / SQLite local spatial tile cache",
+      "realness": "REAL_NATIVE",
+      "test_coverage": "UNIT_TESTED"
+    },
+    {
+      "id": "SUB-12",
+      "name": "Authentication & Session",
+      "original_evidence": [
+        "SingleSessionController",
+        "LoginCallback",
+        "AuthTokenProvider",
+        "GoogleSignIn",
+        "waze_SingleSessionImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/UI/Welcome/WelcomeViewController.swift"
+      ],
+      "classification": "APPROXIMATED",
+      "implemented_behavior": "Authentic welcome UI with Get Started and Start as Guest actions, local guest session token generation",
+      "missing_behavior": "Google OAuth2 sign-in flow, production Waze phone number authentication, SMS verification",
+      "realness": "CLIENT_SHELL",
+      "test_coverage": "UI_INTERACTIVE"
+    },
+    {
+      "id": "SUB-13",
+      "name": "Network Protocols & Services",
+      "original_evidence": [
+        "gRPC",
+        "gRPCCertificates.bundle",
+        "RealtimeAlert",
+        "TransportStateWatcher",
+        "ProtobufResponseParser"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Networking/RoutingServiceProtocol.swift",
+        "WazeRecovery/Sources/Networking/LocalSimulatedRoutingService.swift"
+      ],
+      "classification": "MOCKED",
+      "implemented_behavior": "Protocol abstraction for route calculation, offline synthetic route generator with curved waypoints",
+      "missing_behavior": "gRPC client channels, protobuf message serialization, production TLS certificate pinning, live traffic event polling",
+      "realness": "TEST_DOUBLE",
+      "test_coverage": "MOCKED"
+    },
+    {
+      "id": "SUB-14",
+      "name": "App Extensions & CarPlay",
+      "original_evidence": [
+        "CarPlayActionSheetPresenter",
+        "NotificationExtension.appex",
+        "WazeShareExtension.appex",
+        "waze_WazeCarPlayImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/CarPlay/WZCarPlayMapController.swift"
+      ],
+      "classification": "STUB",
+      "implemented_behavior": "CarPlay connection state tracking, guidance update stub",
+      "missing_behavior": "CPMapTemplate instantiation, CarPlay dashboard trip estimation, Share Sheet extension, Push notification actions",
+      "realness": "STUB",
+      "test_coverage": "NONE"
+    },
+    {
+      "id": "SUB-15",
+      "name": "Settings, Restrictions & Preferences",
+      "original_evidence": [
+        "RestrictionsContextProtocol",
+        "HoyNoCircula",
+        "TollRoadSetting",
+        "AudioSettingsService",
+        "waze_WazeRestrictionsImplementation.bundle"
+      ],
+      "files": [
+        "WazeRecovery/Sources/Persistence/UserPreferencesService.swift"
+      ],
+      "classification": "APPROXIMATED",
+      "implemented_behavior": "Preferences storage for avoidTolls, avoidHighways, avoidUnpavedRoads, speedUnits, voicePromptsEnabled",
+      "missing_behavior": "Dedicated settings navigation UI, Hoy No Circula license plate dialog, vehicle type picker (Taxi, Motorcycle, EV)",
+      "realness": "DATA_ONLY",
+      "test_coverage": "UNIT_TESTED"
+    }
+  ]
+}

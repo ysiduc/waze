@@ -1,0 +1,180 @@
+name: Build Reconstructed Native iOS Application
+
+on:
+  push:
+    branches:
+      - reconstruction/waze-source-recovery
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build Reconstructed Waze iOS App & Package IPA
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Source Recovery Branch
+        uses: actions/checkout@v4
+
+      - name: Select and Report Xcode Version
+        run: |
+          echo "================================================================================"
+          echo "XCODE ENVIRONMENT AUDIT"
+          echo "================================================================================"
+          xcodebuild -version
+          xcrun --show-sdk-path --sdk iphoneos
+          swift --version
+          clang++ --version
+
+      - name: Validate Project Configuration & Structure
+        run: |
+          echo "Checking WazeRecovery source tree..."
+          test -f WazeRecovery/WazeRecovery.xcodeproj/project.pbxproj
+          test -f WazeRecovery/Resources/Info.plist
+          test -f WazeRecovery/App/AppDelegate.swift
+          test -f WazeRecovery/NativeEngine/Geometry/Coordinate.hpp
+          echo "Project structure validated successfully."
+
+      - name: Compile & Execute C++ Engine Unit Tests
+        run: |
+          echo "================================================================================"
+          echo "RUNNING C++ NATIVE ENGINE UNIT TESTS"
+          echo "================================================================================"
+          clang++ -std=c++17 -Wall -Wextra \
+            WazeRecovery/Tests/GeometryTests.cpp \
+            WazeRecovery/NativeEngine/Geometry/Coordinate.cpp \
+            WazeRecovery/NativeEngine/Geometry/Polyline.cpp \
+            -o build_test_geometry
+          ./build_test_geometry
+          rm -f build_test_geometry
+
+          clang++ -std=c++17 -Wall -Wextra \
+            WazeRecovery/Tests/RoutingEngineTests.cpp \
+            WazeRecovery/NativeEngine/Geometry/Coordinate.cpp \
+            WazeRecovery/NativeEngine/Geometry/Polyline.cpp \
+            WazeRecovery/NativeEngine/Routing/RoutingEngine.cpp \
+            -o build_test_routing
+          ./build_test_routing
+          rm -f build_test_routing
+          echo "All native C++ tests passed successfully."
+
+      - name: Compile & Execute Swift XCTest Unit Tests
+        run: |
+          echo "================================================================================"
+          echo "RUNNING SWIFT XCTEST UNIT TEST SUITE"
+          echo "================================================================================"
+          PLATFORM_DIR=$(xcrun --show-sdk-platform-path --sdk macosx)
+          XCTEST_FRAMEWORK_DIR=$(find "$PLATFORM_DIR" -name "XCTest.framework" -exec dirname {} \; | head -n 1)
+          XCTEST_SWIFT_LIB=$(find "$PLATFORM_DIR" -name "XCTest.swiftmodule" -exec dirname {} \; | head -n 1)
+          echo "XCTest Framework Directory: $XCTEST_FRAMEWORK_DIR"
+          echo "XCTest Swift Module Directory: $XCTEST_SWIFT_LIB"
+          mkdir -p build_output
+          xcrun --sdk macosx swiftc \
+            -F "$XCTEST_FRAMEWORK_DIR" \
+            -I "$XCTEST_SWIFT_LIB" \
+            -L "$XCTEST_SWIFT_LIB" \
+            -I "$PLATFORM_DIR/Developer/usr/lib" \
+            -L "$PLATFORM_DIR/Developer/usr/lib" \
+            -Xlinker -rpath -Xlinker "$XCTEST_FRAMEWORK_DIR" \
+            -Xlinker -rpath -Xlinker "$XCTEST_SWIFT_LIB" \
+            -Xlinker -rpath -Xlinker "$PLATFORM_DIR/Developer/usr/lib" \
+            -framework Foundation -framework XCTest -framework CoreLocation -framework Security \
+            WazeRecovery/Sources/Core/Types.swift \
+            WazeRecovery/Sources/Models/RouteModels.swift \
+            WazeRecovery/Sources/Models/NavigationState.swift \
+            WazeRecovery/Sources/Models/HazardModels.swift \
+            WazeRecovery/Sources/Models/SearchModels.swift \
+            WazeRecovery/Sources/Models/LocationModel.swift \
+            WazeRecovery/Sources/Navigation/ManeuverType.swift \
+            WazeRecovery/Sources/Routing/AlternateRoutesStateMachineBridge.swift \
+            WazeRecovery/Sources/Navigation/NavigationGuidanceReducerBridge.swift \
+            WazeRecovery/Sources/Navigation/AlertReportingService.swift \
+            WazeRecovery/Sources/Search/SearchEngine.swift \
+            WazeRecovery/Sources/Persistence/KeychainStorageService.swift \
+            WazeRecovery/Sources/Persistence/UserPreferencesService.swift \
+            WazeRecovery/Tests/AlternateRoutesStateMachineTests.swift \
+            WazeRecovery/Tests/NavigationGuidanceReducerTests.swift \
+            WazeRecovery/Tests/KeychainStorageTests.swift \
+            WazeRecovery/Tests/HazardAlertTests.swift \
+            WazeRecovery/Tests/SearchEngineTests.swift \
+            WazeRecovery/Tests/SwiftTestRunner.swift \
+            -o build_output/run_swift_tests
+          ./build_output/run_swift_tests
+          echo "All Swift XCTest unit tests executed and passed successfully."
+
+      - name: Compile Reconstructed iOS Application
+        run: |
+          set -o pipefail
+          echo "================================================================================"
+          echo "COMPILING NATIVE IOS APPLICATION VIA XCODEBUILD"
+          echo "================================================================================"
+          mkdir -p build_output/build_logs
+
+          xcodebuild build \
+            -project WazeRecovery/WazeRecovery.xcodeproj \
+            -scheme WazeRecovery \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            BUILD_DIR="$(pwd)/build_output/DerivedData" \
+            | tee build_output/build_logs/xcodebuild.log
+
+      - name: Package Unsigned Reconstructed IPA
+        run: |
+          echo "================================================================================"
+          echo "PACKAGING RECONSTRUCTED IPA ARTIFACT"
+          echo "================================================================================"
+          APP_PATH=$(find build_output -name "WazeRecovery.app" -type d | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: WazeRecovery.app was not found in build directory."
+            find build_output -maxdepth 5
+            exit 1
+          fi
+
+          echo "Found compiled application bundle at: $APP_PATH"
+          mkdir -p build_output/ipa_staging/Payload
+          cp -R "$APP_PATH" build_output/ipa_staging/Payload/
+
+          # Package Payload into unsigned IPA
+          cd build_output/ipa_staging
+          zip -qr ../WazeRecovery-unsigned.ipa Payload/
+          cd ../..
+
+          IPA_PATH="build_output/WazeRecovery-unsigned.ipa"
+          EXECUTABLE="$APP_PATH/WazeRecovery"
+
+          echo "================================================================================"
+          echo "RECONSTRUCTED ARTIFACT INTEGRITY CHECK"
+          echo "================================================================================"
+          ls -lh "$IPA_PATH"
+          shasum -a 256 "$IPA_PATH"
+          
+          if [ -f "$EXECUTABLE" ]; then
+            EXE_HASH=$(shasum -a 256 "$EXECUTABLE" | awk '{print $1}')
+            echo "Compiled Executable SHA-256: $EXE_HASH"
+            ORIGINAL_HASH="0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80"
+            if [ "$EXE_HASH" = "$ORIGINAL_HASH" ]; then
+              echo "FATAL: Output executable matches original proprietary binary! Expected clean reconstruction."
+              exit 1
+            else
+              echo "VERIFIED: Executable is a freshly compiled native binary from reconstructed source."
+            fi
+          fi
+
+      - name: Upload Reconstructed IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WazeRecovery-unsigned-ipa
+          path: build_output/WazeRecovery-unsigned.ipa
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload Build Logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xcodebuild-logs
+          path: build_output/build_logs/
+          retention-days: 7

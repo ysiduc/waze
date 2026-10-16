@@ -1,0 +1,444 @@
+{
+  "original_ipa": {
+    "path": "/home/ysiduc/Downloads/waze.ipa",
+    "size_bytes": 114712520,
+    "sha256": "78c54a3db510c7d2142baeb13dd773c2f7774a3e4d99fb9a4cc966941086a158",
+    "testzip_passed": true,
+    "total_entries": 2435,
+    "dir_count": 126,
+    "file_count": 2309,
+    "symlink_count": 0,
+    "total_uncompressed_bytes": 224010487,
+    "app_uncompressed_bytes": 224010478,
+    "bundle_ids": {
+      "Payload/Waze.app/waze_WazeCommonUI.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeCommonUI.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeHoyNoCirculaImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeHoyNoCirculaImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/PlugIns/NotificationExtension.appex/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.WazeNotificationExtension",
+        "CFBundleShortVersionString": "5.22.0",
+        "CFBundleVersion": "1"
+      },
+      "Payload/Waze.app/PlugIns/WazeShareExtension.appex/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.WazeShareExtension",
+        "CFBundleShortVersionString": "5.22.0",
+        "CFBundleVersion": "1"
+      },
+      "Payload/Waze.app/waze_WazeForceUpgradeImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeForceUpgradeImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeButtonPackImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeButtonPackImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeConversationalReportingImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeConversationalReportingImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeShareDriveImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeShareDriveImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_SingleSessionImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_SingleSessionImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeMapOverlay.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeMapOverlay.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeConversationImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeConversationImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeMainScreenImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeMainScreenImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSearchImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSearchImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeToGoalImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeToGoalImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAlternateRoutesImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAlternateRoutesImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/LaunchScreen.storyboardc/Info.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAskImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAskImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeReportingAgentImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeReportingAgentImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAudioImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAudioImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAlertReportUIImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAlertReportUIImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeOnboardingImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeOnboardingImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/VoiceFilesDataModel.momd/VersionInfo.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/Frameworks/SpotifyiOS.framework/Info.plist": {
+        "CFBundleIdentifier": "com.spotify.sdk.ios",
+        "CFBundleShortVersionString": "3.0.0",
+        "CFBundleVersion": "1.0.0"
+      },
+      "Payload/Waze.app/StatsDataModel.momd/VersionInfo.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeViews.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeViews.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone",
+        "CFBundleShortVersionString": "5.22.0",
+        "CFBundleVersion": "1"
+      },
+      "Payload/Waze.app/waze_WazeSearchMateImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSearchMateImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeUIKit.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeUIKit.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeCompaninioExperimentalUIImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeCompaninioExperimentalUIImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/GoogleService-Info.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeCarPlayImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeCarPlayImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeRestrictionsImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeRestrictionsImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeGpsIssue.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeGpsIssue.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeTripOverviewImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeTripOverviewImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSearchResultsUI.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSearchResultsUI.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSplashImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSplashImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      }
+    }
+  },
+  "repackaged_ipa": {
+    "path": "/home/ysiduc/.gemini/antigravity-ide/scratch/waze-analysis/repackaged/Waze-repackaged-v2.ipa",
+    "size_bytes": 114694185,
+    "sha256": "5fad80d7a2c798659e262567e248e38e58eaf00423a04e697aad7a16bc9e3a51",
+    "testzip_passed": true,
+    "total_entries": 2434,
+    "dir_count": 126,
+    "file_count": 2308,
+    "symlink_count": 0,
+    "total_uncompressed_bytes": 224010478,
+    "app_uncompressed_bytes": 224010478,
+    "bundle_ids": {
+      "Payload/Waze.app/Frameworks/SpotifyiOS.framework/Info.plist": {
+        "CFBundleIdentifier": "com.spotify.sdk.ios",
+        "CFBundleShortVersionString": "3.0.0",
+        "CFBundleVersion": "1.0.0"
+      },
+      "Payload/Waze.app/GoogleService-Info.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone",
+        "CFBundleShortVersionString": "5.22.0",
+        "CFBundleVersion": "1"
+      },
+      "Payload/Waze.app/LaunchScreen.storyboardc/Info.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/PlugIns/NotificationExtension.appex/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.WazeNotificationExtension",
+        "CFBundleShortVersionString": "5.22.0",
+        "CFBundleVersion": "1"
+      },
+      "Payload/Waze.app/PlugIns/WazeShareExtension.appex/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.WazeShareExtension",
+        "CFBundleShortVersionString": "5.22.0",
+        "CFBundleVersion": "1"
+      },
+      "Payload/Waze.app/StatsDataModel.momd/VersionInfo.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/VoiceFilesDataModel.momd/VersionInfo.plist": {
+        "CFBundleIdentifier": null,
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_SingleSessionImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_SingleSessionImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAlertReportUIImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAlertReportUIImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAlternateRoutesImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAlternateRoutesImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAskImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAskImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeAudioImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeAudioImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeButtonPackImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeButtonPackImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeCarPlayImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeCarPlayImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeCommonUI.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeCommonUI.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeCompaninioExperimentalUIImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeCompaninioExperimentalUIImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeConversationImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeConversationImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeConversationalReportingImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeConversationalReportingImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeForceUpgradeImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeForceUpgradeImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeGpsIssue.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeGpsIssue.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeHoyNoCirculaImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeHoyNoCirculaImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeMainScreenImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeMainScreenImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeMapOverlay.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeMapOverlay.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeOnboardingImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeOnboardingImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeReportingAgentImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeReportingAgentImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeRestrictionsImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeRestrictionsImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSearchImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSearchImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSearchMateImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSearchMateImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSearchResultsUI.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSearchResultsUI.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeShareDriveImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeShareDriveImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeSplashImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeSplashImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeToGoalImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeToGoalImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeTripOverviewImplementation.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeTripOverviewImplementation.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeUIKit.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeUIKit.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      },
+      "Payload/Waze.app/waze_WazeViews.bundle/Info.plist": {
+        "CFBundleIdentifier": "com.waze.iphone.waze_WazeViews.resources",
+        "CFBundleShortVersionString": null,
+        "CFBundleVersion": null
+      }
+    }
+  },
+  "comparison": {
+    "only_in_original_count": 1,
+    "only_in_original_sample": [
+      "Payload/decrypt.day"
+    ],
+    "only_in_repackaged_count": 0,
+    "only_in_repackaged_sample": [],
+    "common_entries_count": 2434,
+    "file_sha256_mismatches_count": 0,
+    "file_sha256_mismatches": [],
+    "file_size_mismatches_count": 0,
+    "file_size_mismatches": [],
+    "mode_differences_count": 0,
+    "mode_differences_sample": [],
+    "compress_differences_count": 0,
+    "macho_comparisons": {
+      "Payload/Waze.app/Waze": {
+        "in_original": true,
+        "in_repackaged": true,
+        "orig_sha256": "0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80",
+        "repk_sha256": "0c40c247228439e2b75baca181569c75c144918561a8177e9399b183b5709d80",
+        "sha256_match": true,
+        "is_unencrypted": true,
+        "is_arm64": true
+      },
+      "Payload/Waze.app/Frameworks/SpotifyiOS.framework/SpotifyiOS": {
+        "in_original": true,
+        "in_repackaged": true,
+        "orig_sha256": "eb7a150a88b20247522982b3f154009945ea7d52d6d0b87eaa69be2b9bf957ac",
+        "repk_sha256": "eb7a150a88b20247522982b3f154009945ea7d52d6d0b87eaa69be2b9bf957ac",
+        "sha256_match": true,
+        "is_unencrypted": true,
+        "is_arm64": true
+      },
+      "Payload/Waze.app/PlugIns/NotificationExtension.appex/NotificationExtension": {
+        "in_original": true,
+        "in_repackaged": true,
+        "orig_sha256": "4b2985714dbbbc9a583eb983c1f4638bfd641d37df6b83027b93bcca2caa5330",
+        "repk_sha256": "4b2985714dbbbc9a583eb983c1f4638bfd641d37df6b83027b93bcca2caa5330",
+        "sha256_match": true,
+        "is_unencrypted": true,
+        "is_arm64": true
+      },
+      "Payload/Waze.app/PlugIns/WazeShareExtension.appex/WazeShareExtension": {
+        "in_original": true,
+        "in_repackaged": true,
+        "orig_sha256": "5df1434ea011d3aaf9e83e941c581a3964eb8894ca508115a929340707c05c11",
+        "repk_sha256": "5df1434ea011d3aaf9e83e941c581a3964eb8894ca508115a929340707c05c11",
+        "sha256_match": true,
+        "is_unencrypted": true,
+        "is_arm64": true
+      }
+    }
+  }
+}

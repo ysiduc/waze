@@ -12,10 +12,10 @@
 | Metric | Measured Value | Verification Method |
 |---|---|---|
 | **Archive File** | `waze.ipa` | Local filesystem path |
-| **File Size** | 115,221,416 bytes (~109.88 MB) | System stat utility |
+| **File Size** | 114,712,520 bytes (~109.40 MiB / 114.71 MB) | System stat utility |
 | **SHA-256 Digest** | `78c54a3db510c7d2142baeb13dd773c2f7774a3e4d99fb9a4cc966941086a158` | Standard sha256sum |
 | **Format** | Standard ZIP / iOS Application Package (IPA) | REA `inspect_artifact` |
-| **Archive Entry Count** | 2,436 occurrences (2,310 files, 126 directories) | REA Safe Artifact Graph |
+| **Archive Entry Count** | 2,435 occurrences (2,309 files, 126 directories) | Archive entry audit |
 | **Payload Directory** | `Payload/` | Canonical iOS IPA layout |
 | **Application Bundle** | `Payload/Waze.app` | Root iOS bundle |
 | **Decryption Marker** | `Payload/decrypt.day` | Present in dump (contains marker `und3fined`) |

@@ -3,12 +3,25 @@
 [![Analysis Tools](https://img.shields.io/badge/Tools-REA_6.5.0_|_Ghidra_12.1.2-blue.svg)](#analysis-toolchain)
 [![Target](https://img.shields.io/badge/Target-Waze_iOS_v5.22.0_(ARM64)-orange.svg)](#target-overview)
 [![Scope](https://img.shields.io/badge/Scope-Documentation_&_Audit_Only-green.svg)](#research-scope--security-boundary)
-[![Audit Status](https://img.shields.io/badge/Audit-Phase_1.4.1_Completed-brightgreen.svg)](reports/09_target_analysis_validation.md)
+[![Audit Status](https://img.shields.io/badge/Audit-Phase_2.6_Completed-brightgreen.svg)](reports/21_waze_runtime_remediation_feasibility.md)
+[![Reconstruction Status](https://img.shields.io/badge/Reconstruction-Phase_3.0_Milestones_M0--M6_Completed-brightgreen.svg)](reports/22_source_recovery_project_reconstruction.md)
 
 This repository contains static analysis documentation, architectural models, evidence inventories, and tool verification records from an authorized, read-only reverse engineering audit of the Waze iOS application bundle (`waze.ipa`, v5.22.0).
 
+In **Phase 3.0**, a clean-room, native iOS source project (`WazeRecovery/`) was reconstructed based on forensic evidence from the unencrypted IPA snapshot, featuring an independent C++ spatial & routing engine, Swift guidance & state reducers, zero-error local Keychain architecture, and an automated GitHub Actions CI pipeline building unsigned iOS IPAs.
 
-The objective of this research is to evaluate static analysis feasibility, verify REA (Reverse Engineer Anything) and Ghidra toolchains against modern iOS production binaries, and document clean-room architectural boundaries without redistributing proprietary assets or source code.
+---
+
+## Reconstructed Native iOS Project (`WazeRecovery/`)
+
+- **Project Location:** [`WazeRecovery/`](WazeRecovery/)
+- **Xcode Project:** [`WazeRecovery/WazeRecovery.xcodeproj`](WazeRecovery/WazeRecovery.xcodeproj)
+- **CI Workflow:** [`.github/workflows/build-reconstructed-ios.yml`](.github/workflows/build-reconstructed-ios.yml)
+- **Latest Verified CI Run:** [Run 38945680081 (SUCCESS, 54s)](https://github.com/ysiduc/waze/actions/runs/38945680081)
+- **Artifact:** `WazeRecovery-unsigned.ipa` (SHA-256: `434914dad40e31045abb490ac224ece171cdb78ef9496963d5ad801325eed455`)
+- **Compiled Binary Executable:** SHA-256: `6954cac7273ac25aa22d315809a0050f6854c0f84cd8209951b42c1932f3578f`
+- **Binary Independence:** 100% freshly compiled native binary. Does NOT contain or depend on the original 141.42 MB executable (`0c40c247...`).
+
 
 ---
 
@@ -45,20 +58,38 @@ The objective of this research is to evaluate static analysis feasibility, verif
 - **[`06_reverse_feasibility.md`](reports/06_reverse_feasibility.md)**: Recovery assessment matrix categorized into VERIFIED, PARTIALLY VERIFIED, INFERRED, and BLOCKED; identifies server-dependent boundaries, entitlement constraints, and copyright boundaries.
 - **[`07_consistency_audit.md`](reports/07_consistency_audit.md)**: Comprehensive audit report reconciling all historical discrepancies (file size, SHA-256, iOS minimum version, symbol table definitions) against original ground truth artifacts.
 - **[`08_targeted_core_analysis.md`](reports/08_targeted_core_analysis.md)**: Targeted ARM64 binary analysis and scoped decompilation verification of five non-trivial application routines (100% success rate, boundary validation, and Objective-C runtime selector reconciliation).
-- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: **[NEW - Phase 1.4.1]** Target analysis reproducibility fix and independent validation report; resolves 1,300 vs 1,540 byte boundary discrepancy (6 ranges, 5 gaps), independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
+- **[`09_target_analysis_validation.md`](reports/09_target_analysis_validation.md)**: Target analysis reproducibility fix and independent validation report; resolves boundary discrepancy, independently parses Objective-C metadata from memory, records decompiler warnings, and provides sanitized execution logs.
+- **[`15_original_binary_repackaging.md`](reports/15_original_binary_repackaging.md)**: Feasibility assessment of source reconstruction vs. original binary repackaging. Verifies bit-exact preservation of original 141.42 MB unencrypted ARM64 binary (`cryptid=0`, SHA-256: `0c40c247...`), audits non-transferable entitlements (CarPlay, App Attest, APNs), and validates a 109.37 MB repackaged test IPA.
+- **[`16_final_ipa_integrity.md`](reports/16_final_ipa_integrity.md)**: Conclusive packaging integrity and equivalence audit. Reconciles original IPA dimensions (`114,712,520 bytes`), verifies complete POSIX ZIP metadata preservation (permissions, directory entries, compression alignment), audits GitHub Actions synthetic vs. real bundle separation, and proves bit-exact payload equivalence (0 SHA-256 mismatches across all 2,308 files).
+- **[`17_authentication_failure_analysis.md`](reports/17_authentication_failure_analysis.md)**: Architectural and cryptographic diagnosis of authentication and guest session initialization failures on physical hardware. Investigates Google OAuth bundle ID mismatch (`HTTP 400`), Apple App Attest / App Check token rejection, Keychain access group isolation (`-34018`), and the C++ realtime engine reset loop (`Realtime_LoginCallback: "not logged in!"` $\to$ `_resetLoginState`).
+- **[`18_physical_device_session_diagnostics.md`](reports/18_physical_device_session_diagnostics.md)**: Evidence-grounded evaluation of physical iPhone session failures. Establishes corrected `idevicesyslog` multi-process filter procedures for Arch Linux, analyzes the Guest Mode network loading delay and navigation reset loop, and rigorously classifies findings into VERIFIED, CONSISTENT WITH OBSERVATIONS, UNVERIFIED, and RULED OUT.
+- **[`19_live_device_diagnostics.md`](reports/19_live_device_diagnostics.md)**: Definitive physical iPhone runtime diagnosis. Captures live syslog evidence proving the root failure point: `securityd` denies Keychain access with `NSOSStatusErrorDomain Code=-34018` because Waze explicitly requests `UM5AE5Q8GC.com.waze.iphone` while entitled only for the sideload Team ID (`PXC48K9UH5.*`), triggering immediate network connection cancellation and session reset without process crash.
+- **[`20_final_signing_compatibility.md`](reports/20_final_signing_compatibility.md)**: Conclusive signing compatibility and architectural feasibility assessment. Reconciles physical iPhone Keychain error `-34018`, analyzes the `com.waze.iphone` vs. `PXC48K9UH5.app.orangutan6985.galaxy1202` identity conflict, proves why independent re-signing is a technical dead end, and details the supported, non-invasive Apple Notification Center Service (ANCS) BLE integration architecture for the ESP32 project.
+- **[`21_waze_runtime_remediation_feasibility.md`](reports/21_waze_runtime_remediation_feasibility.md)**: Definitive runtime compatibility and stability report. Reconstructs the complete verified failure chain from live device logs, maps Keychain `-34018` access group isolation and App Attest/OAuth barriers, provides an actionable remediation decision matrix, documents a 12-point physical device acceptance test ledger, and proves why independent signing cannot be made functional without official developer authorization.
+- **[`22_source_recovery_project_reconstruction.md`](reports/22_source_recovery_project_reconstruction.md)**: Comprehensive legacy source-recovery report documenting the complete native iOS project (`WazeRecovery/`), C++ spatial & routing engine, Metal shader pipeline, unidirectional guidance reducers, authentic Waze UI, zero-error Keychain architecture, and GitHub Actions CI workflow.
+- **[`23_full_source_recovery_gap_audit.md`](reports/23_full_source_recovery_gap_audit.md)**: **[NEW - Gap Audit & Enhancements]** Comprehensive forensic bundle inventory, 15-subsystem REA/Ghidra analysis, module-by-module source classification matrix, removal of unsupported completion claims, crowdsourced hazard reporting engine, dynamic maneuver generator, Mercator tile indexer, and multi-category spatial search.
 
-### 2. Technical Evidence (`evidence/`)
+
+### 2. Technical Evidence & Guides (`evidence/`, `docs/`)
+
+- **[`ipa_forensic_inventory.md`](evidence/ipa_forensic_inventory.md)**: **[NEW]** Forensic inventory of all 2,435 original `waze.ipa` components, mapping 29 monorepo feature bundles, unencrypted Mach-O binary, and resource assets.
+- **[`source_recovery_map.md`](evidence/source_recovery_map.md)**: **[NEW]** Comprehensive ledger connecting original ARM64 binary virtual addresses and symbols to reconstructed Swift and C++ modules.
 
 - **[`function_inventory.md`](evidence/function_inventory.md)**: Formal register of audited functions, including virtual addresses, class bindings, cross-references, decompiled behavior summaries, and confidence levels.
 - **[`class_inventory.md`](evidence/class_inventory.md)**: Register of critical Objective-C classes, internal class hierarchies, protocols, and internal Google monorepo source path references (`//maps/mobile/waze/...`).
 - **[`analysis_statistics.md`](evidence/analysis_statistics.md)**: Quantitative static analysis metrics, section sizes, string distributions, symbol counts, and Ghidra headless processing benchmarks.
 - **[`tool_verification.md`](evidence/tool_verification.md)**: Tool environment verification records for REA 6.5.0 MCP server, Ghidra 12.1.2 headless analyzer, GNU Binutils, and OpenJDK 27 on Arch Linux.
 - **[`reproducibility_manifest.md`](evidence/reproducibility_manifest.md)**: Step-by-step reproducibility manifest containing exact commands, checksums, Python inspection scripts, and Ghidra headless automation parameters.
-- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: **[UPDATED - Phase 1.4.1]** Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
+- **[`targeted_function_results.md`](evidence/targeted_function_results.md)**: Detailed empirical verification register of the 5 targeted routines, including exact body ranges, internal gaps, basic block counts, call counts, decompilation timings, and independently verified method metadata.
+- **[`ipa_equivalence_report.md`](evidence/ipa_equivalence_report.md)**: **[NEW]** Machine-verified archive equivalence comparison between original `waze.ipa` and `Waze-repackaged-v2.ipa` (0 hash mismatches, 0 mode diffs, 0 compression diffs).
+- **[`docs/signing_and_sideloading_guide.md`](docs/signing_and_sideloading_guide.md)**: Technical instructions for developer-managed re-signing and local physical hardware testing (Sideloadly automated workflow and manual macOS `codesign` CLI process).
 
-### 3. Analysis Automation Scripts (`scripts/`)
+### 3. Packaging & Analysis Automation Scripts (`scripts/`, `.github/`)
 
-- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: **[UPDATED - Phase 1.4.1]** Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
+- **[`repackage_and_validate.py`](scripts/repackage_and_validate.py)**: Non-destructive read-only repackaging and structural verification tool. Preserves unencrypted Mach-O binaries, POSIX permissions (`0o100755` / `0o100644`), standard directory records (`0o040755`), and aligns compression types with the original package.
+- **[`verify_ipa_equivalence.py`](scripts/verify_ipa_equivalence.py)**: **[NEW]** Standalone IPA comparison and integrity verification engine. Audits per-file hashes, uncompressed payloads, Mach-O encryption/signatures, permissions, and directory hierarchies, outputting JSON and Markdown reports.
+- **[`TargetAnalysis.java`](scripts/TargetAnalysis.java)**: Standalone Ghidra Headless Analyzer script performing reproducible scoped disassembly, independent Objective-C runtime metadata resolution, function boundary auditing, CFG generation, and decompilation verification.
+- **[`.github/workflows/validate-repackaging.yml`](.github/workflows/validate-repackaging.yml)**: GitHub Actions CI pipeline executing syntax verification, synthetic structure compliance testing, and validation artifact report generation via `workflow_dispatch`.
 
 
 ### 4. Architecture Diagrams (`diagrams/`)
