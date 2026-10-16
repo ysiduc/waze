@@ -13,31 +13,36 @@ class ConsoleTestObserver: NSObject, XCTestObservation {
     }
 }
 
-print("================================================================================")
-print("RUNNING RECONSTRUCTED SWIFT XCTEST UNIT TEST SUITE")
-print("================================================================================")
+@main
+struct SwiftTestRunner {
+    static func main() {
+        print("================================================================================")
+        print("RUNNING RECONSTRUCTED SWIFT XCTEST UNIT TEST SUITE")
+        print("================================================================================")
 
-let observer = ConsoleTestObserver()
-XCTestObservationCenter.shared.addTestObserver(observer)
+        let observer = ConsoleTestObserver()
+        XCTestObservationCenter.shared.addTestObserver(observer)
 
-let suite = XCTestSuite(name: "WazeRecoveryAllTests")
-suite.addTest(AlternateRoutesStateMachineTests.defaultTestSuite)
-suite.addTest(NavigationGuidanceReducerTests.defaultTestSuite)
-suite.addTest(KeychainStorageTests.defaultTestSuite)
-suite.addTest(HazardAlertTests.defaultTestSuite)
-suite.addTest(SearchEngineTests.defaultTestSuite)
+        let suite = XCTestSuite(name: "WazeRecoveryAllTests")
+        suite.addTest(AlternateRoutesStateMachineTests.defaultTestSuite)
+        suite.addTest(NavigationGuidanceReducerTests.defaultTestSuite)
+        suite.addTest(KeychainStorageTests.defaultTestSuite)
+        suite.addTest(HazardAlertTests.defaultTestSuite)
+        suite.addTest(SearchEngineTests.defaultTestSuite)
 
-suite.run()
+        suite.run()
 
-let totalTests = suite.testRun?.executionCount ?? 0
-let failureCount = suite.testRun?.failureCount ?? 0
+        let totalTests = suite.testRun?.executionCount ?? 0
+        let failureCount = suite.testRun?.failureCount ?? 0
 
-if failureCount == 0 && totalTests > 0 {
-    print("================================================================================")
-    print("ALL SWIFT XCTEST UNIT TESTS PASSED SUCCESSFULLY (\(totalTests) tests executed, 0 failures)")
-    print("================================================================================")
-    exit(0)
-} else {
-    print("FATAL: \(failureCount) Swift unit test(s) failed out of \(totalTests) executed.")
-    exit(1)
+        if failureCount == 0 && totalTests > 0 {
+            print("================================================================================")
+            print("ALL SWIFT XCTEST UNIT TESTS PASSED SUCCESSFULLY (\(totalTests) tests executed, 0 failures)")
+            print("================================================================================")
+            exit(0)
+        } else {
+            print("FATAL: \(failureCount) Swift unit test(s) failed out of \(totalTests) executed.")
+            exit(1)
+        }
+    }
 }

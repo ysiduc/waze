@@ -63,8 +63,11 @@ jobs:
           echo "================================================================================"
           echo "RUNNING SWIFT XCTEST UNIT TEST SUITE"
           echo "================================================================================"
+          PLATFORM_DIR=$(xcrun --show-sdk-platform-path --sdk macosx)
           mkdir -p build_output
           xcrun --sdk macosx swiftc \
+            -F "$PLATFORM_DIR/Developer/Library/Frameworks" \
+            -Xlinker -rpath -Xlinker "$PLATFORM_DIR/Developer/Library/Frameworks" \
             -framework Foundation -framework XCTest -framework CoreLocation -framework Security \
             WazeRecovery/Sources/Core/Types.swift \
             WazeRecovery/Sources/Models/RouteModels.swift \
