@@ -29,7 +29,7 @@
 
 ### 4. Are symbols or metadata available?
 **YES, EXTENSIVE METADATA IS AVAILABLE (VERIFIED).**
-- **Symbol Table:** Standard for production release builds, private local C/C++ function symbols in the global `LC_SYMTAB` are stripped. Only imported external dynamic symbols (5,096 symbols) remain in `LC_SYMTAB`.
+- **Symbol Table:** Standard for production release builds, private local C/C++ function symbols in the global `LC_SYMTAB` are stripped. Exactly 5,098 raw symbols remain in `LC_SYMTAB` (5,096 undefined dynamic imports in `LC_DYSYMTAB`, 1 defined symbol `_mh_execute_header`, 1 local symbol). Ghidra internally indexes 614,321 memory labels across the binary.
 - **Objective-C Metadata:** Fully preserved in `__objc_*` sections. Includes 6,994 class names, 5,677 registered class definitions, 1.15 MB of selector/method names, and complete method lists.
 - **Swift 5 Reflection Metadata:** Fully preserved in `__swift5_*` sections. Includes 19,404 property and field names in `__swift5_reflstr`, type descriptors in `__swift5_types`, and protocol conformances.
 - **Source Paths:** Intact inside 103,458 C-string constants (`__cstring`), including internal Google source file paths (`third_party/waze/client/...`).

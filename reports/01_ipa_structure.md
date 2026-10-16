@@ -126,7 +126,7 @@ Each binary was inspected via Mach-O load commands `LC_ENCRYPTION_INFO` (`0x21`)
 
 - **Asset Catalogs (`.car`):** 25 `.car` files (primary `Assets.car` at 25.5 MB, and 24 modular feature asset catalogs inside `.bundle` directories).
 - **Modular Bundles (29 total):** Internal feature modularity (e.g., `waze_WazeCarPlayImplementation.bundle`, `waze_WazeAlertReportUIImplementation.bundle`, `waze_WazeAlternateRoutesImplementation.bundle`, `gRPCCertificates.bundle`).
-- **Metal Shader Library:** `default.metallib` (67,280 bytes) containing compiled Apple Metal GPU shaders (`BlurVertexShader`, `BlurFragmentShader`, `SimpleTextureVertexShader`, `SimpleTextureFragmentShader`).
+- **Metal Shader Library:** `default.metallib` (67,042 bytes) containing compiled Apple Metal GPU shaders (`BlurVertexShader`, `BlurFragmentShader`, `SimpleTextureVertexShader`, `SimpleTextureFragmentShader`).
 - **UI Views & Animations:** 58 compiled `.nib` views, 1 `LaunchScreen.storyboardc`, and 75 Lottie `.json` animation configuration files.
 
 ---

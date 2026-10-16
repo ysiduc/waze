@@ -67,7 +67,7 @@
   - Ghidra's `NamingUtilities.checkName` rejects project paths where any directory element starts with a dot `.` (such as `.gemini`). Storing projects in non-dot directories (such as `/tmp/ghidra_proj`) completely circumvents this issue.
 - **Analysis Performance:**
   - `NotificationExtension` (1.23 MB): Auto-analysis completed in under 100 seconds; decompilation of procedure `0x100004000` succeeded.
-  - `Waze` Main Executable (141.4 MB): Headless import completed in 39.40s; symbol table of 614,321 entries generated; test batch of 20 functions decompiled with 100% success (average <15 ms per function).
+  - `Waze` Main Executable (141.42 MB): Headless import completed in 39.40s with `-noanalysis`; Ghidra internal database indexed 614,321 memory labels (Mach-O `LC_SYMTAB` contains 5,098 stripped symbols); test batch of 20 initial procedures (19 dynamic library stubs and 1 entry point) decompiled with 100% success (average <15 ms per function).
 
 ---
 
